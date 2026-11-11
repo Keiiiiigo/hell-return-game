@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="dark"/>
+<link rel="icon" href="data:,"/>
+<title>地狱归途 · 从地府杀到天庭</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#12100e;--paper:#1e1a16;--paper2:#26201a;--ink:#e8ddd0;--muted:#a99a86;--red:#b3372e;--red2:#8c211c;--gold:#c9a86a;--gold2:#e6c88a;--jade:#7a9e7e;--line:#3a3229;--card:#f3e9d2}
+*{box-sizing:border-box}body{margin:0;background:#0d0b09;color:var(--ink);font-family:"Noto Serif SC",serif;line-height:1.6}
+button{font-family:inherit;cursor:pointer;min-height:44px}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(13,11,9,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+.topinner{max-width:1080px;margin:0 auto;padding:5px 12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between}
+.logo{font-family:"Ma Shan Zheng",cursive;font-size:20px;letter-spacing:1px;color:var(--gold2)}
+.logo span{color:var(--red);font-size:12px;letter-spacing:0;margin-left:4px}
+.stats{display:flex;gap:5px;flex-wrap:wrap;font-size:12px}
+.pill{border:1px solid var(--line);background:var(--paper);padding:2px 8px;border-radius:999px}
+.pill b{color:var(--gold2)}
+.tabs{display:flex;gap:5px}
+.tabbtn{background:none;border:1px solid var(--line);color:var(--ink);padding:3px 10px;border-radius:999px;font-size:13px;min-height:30px}
+.tabbtn.active{background:var(--red);border-color:var(--red);color:white}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 14px 90px}
+.hero{border:1px solid #4a3a28;background:radial-gradient(800px 300px at 20% 0%,#3a1713,transparent),linear-gradient(180deg,#1c1712,#12100e);padding:22px;border-radius:16px;position:relative;overflow:hidden}
+.hero h1{font-family:"Ma Shan Zheng",cursive;font-size:52px;line-height:1;margin:8px 0;color:#fff;letter-spacing:3px}
+.hero h1 em{color:var(--red);font-style:normal}
+.hero p{color:#d6c9b3;max-width:680px}
+.seal{display:inline-block;border:2px solid var(--red);color:#ff9a8f;padding:2px 8px;transform:rotate(-3deg);font-weight:900;letter-spacing:3px;font-size:13px}
+.btn{background:var(--red);color:white;border:none;padding:12px 20px;border-radius:10px;font-weight:900;font-size:16px}
+.btn.gold{background:var(--gold);color:#1a140d}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}.btn:disabled{opacity:.4}
+.acts{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}
+@media(min-width:760px){.acts{grid-template-columns:1fr 1fr 1fr}.hero h1{font-size:72px}}
+.actcard{border:1px solid var(--line);background:var(--paper);padding:16px;border-radius:14px}
+.actcard h3{margin:0 0 6px}.actcard small{color:var(--gold)}
+.actcard p{font-size:14px;color:var(--muted);margin:6px 0}
+.themebox{margin-top:16px;border-left:4px solid var(--red);background:#1a1512;padding:14px 16px;border-radius:0 12px 12px 0;font-size:14px}
+.themebox b{color:var(--gold2)}
+/* MAP */
+.mapHead{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:10px;margin:18px 0 10px}
+.mapShell{position:relative;border:1px solid #4a3f30;border-radius:20px;background:radial-gradient(900px 500px at 50% 0%,rgba(201,168,106,.14),transparent 60%),radial-gradient(700px 500px at 50% 100%,rgba(179,55,46,.18),transparent 60%),linear-gradient(180deg,#1e2b33 0%,#1a2428 22%,#161412 48%,#1d1512 72%,#241512 100%);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 18px 50px rgba(0,0,0,.35)}
+.mapShell:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);background-size:22px 22px;opacity:.35;pointer-events:none;z-index:1}
+.mapScroll{height:72vh;min-height:560px;overflow-y:auto;position:relative;scroll-behavior:smooth;scrollbar-width:thin}
+.mapCanvas{position:relative;width:100%;height:1680px}
+.mapCanvas svg{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.chapterBand{position:absolute;left:12px;right:12px;padding:7px 12px;font-weight:900;letter-spacing:2px;font-size:12px;display:flex;justify-content:space-between;border:1px solid rgba(230,200,138,.28);border-radius:999px;background:rgba(10,8,6,.72);backdrop-filter:blur(4px);z-index:2;color:#e6c88a}
+.node{position:absolute;width:76px;transform:translate(-50%,-50%);text-align:center;z-index:3;background:none;border:none;color:white;padding:0}
+.nodeIcon{width:50px;height:50px;margin:0 auto;border-radius:50%;display:grid;place-items:center;font-size:23px;border:2px solid rgba(255,255,255,.28);background:linear-gradient(180deg,#3a332a,#241f19);box-shadow:0 8px 22px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.12);transition:.2s}
+.nodeLabel{font-size:11px;margin-top:5px;line-height:1.2;text-shadow:0 2px 8px black,0 0 2px black;font-weight:700;background:rgba(0,0,0,.45);display:inline-block;padding:2px 6px;border-radius:999px}
+.nodeSub{font-size:10px;color:#e8ddd0;opacity:.92;text-shadow:0 1px 4px black;margin-top:2px}
+.node.reachable .nodeIcon{border-color:var(--gold2);box-shadow:0 0 0 5px rgba(201,168,106,.25),0 0 24px var(--gold);animation:pulse 1.2s infinite;cursor:pointer}
+.node.reachable:hover .nodeIcon{transform:scale(1.12)}
+.node.done{opacity:.55}.node.done .nodeIcon{background:var(--jade)}
+.node.locked{opacity:.38;filter:grayscale(.6)}
+.node.current .nodeIcon{border-color:#fff;background:var(--red)}
+/* 怪物只看图标：普通怪小而灰暗，精英怪大一圈、血红描边+红光，Boss 金红大图标，一眼区分 */
+.node.kind-normal .nodeIcon{width:44px;height:44px;font-size:20px;border-color:rgba(255,255,255,.22);background:linear-gradient(180deg,#35302a,#221e19)}
+.node.kind-elite .nodeIcon{width:60px;height:60px;font-size:30px;border:3px solid #e0524a;background:radial-gradient(circle at 50% 35%,#5a1d18,#2a1210);box-shadow:0 0 0 4px rgba(179,55,46,.28),0 0 22px rgba(224,82,74,.65),0 8px 22px rgba(0,0,0,.55)}
+.node.kind-boss .nodeIcon{width:62px;height:62px;font-size:30px;border:3px solid var(--gold2);background:radial-gradient(circle at 50% 35%,#6b241c,#2a1210);box-shadow:0 0 0 4px rgba(201,168,106,.25),0 0 24px rgba(201,168,106,.55),0 8px 22px rgba(0,0,0,.55)}
+.node.kind-mystery .nodeIcon{width:50px;height:50px;font-size:26px;font-weight:900;font-family:"Noto Serif SC",serif;color:var(--gold2);border-style:dashed;border-color:rgba(230,200,138,.65);background:linear-gradient(180deg,#2e2a33,#1d1a22)}
+.node.kind-shop .nodeIcon{border-color:rgba(230,200,138,.7);background:linear-gradient(180deg,#4a3420,#2a1e12)}
+.node.kind-rest .nodeIcon{border-color:rgba(122,158,126,.75);background:linear-gradient(180deg,#2c4030,#1c2a20)}
+/* 一关一张大地图：关卡切换条 + 通往下一关的入口 */
+.actNav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.actNavBtn{flex:1;min-width:100px;border:1px solid var(--line);background:var(--paper);color:var(--muted);border-radius:12px;padding:9px 8px;font-size:13px;line-height:1.35}
+.actNavBtn b{display:block;color:var(--ink);font-size:14px}
+.actNavBtn.viewing{border-color:var(--gold);background:#2a2116;color:var(--gold2)}
+.actNavBtn.viewing b{color:var(--gold2)}
+.actNavBtn.lockedAct{opacity:.45}
+.actNavBtn:disabled{cursor:default}
+.portalNode{position:absolute;left:50%;top:44px;transform:translate(-50%,-50%);z-index:4;background:linear-gradient(180deg,#4a3420,#2a1e12);border:2px solid var(--gold2);color:#fff;border-radius:999px;padding:10px 18px;font-weight:900;font-size:14px;box-shadow:0 0 24px rgba(201,168,106,.55);animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+#token{position:absolute;width:36px;height:36px;margin:-18px 0 0 -18px;z-index:5;pointer-events:none;transition:left.78s cubic-bezier(.45,0,.2,1),top.78s cubic-bezier(.45,0,.2,1);filter:drop-shadow(0 0 12px #ff6b4a)}
+#tokenInner{font-size:32px;animation:bob 1s infinite alternate ease-in-out;text-align:center;line-height:1}
+@keyframes bob{from{transform:translateY(-2px)}to{transform:translateY(3px)}}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted);margin-top:10px}
+/* BATTLE & PANELS */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.enemyArt{font-size:52px;text-align:center;line-height:1;margin:2px 0}
+.bar{height:14px;background:#111;border-radius:999px;overflow:hidden;border:1px solid #444;display:flex}
+.bar i{display:block;height:100%;transition:.3s;flex-shrink:0}
+.bar i.hpFill{background:var(--red)}
+.bar.green i.hpFill{background:var(--jade)}
+.bar i.blockFill{background:#f7f3ea;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.intentBelow{display:inline-block;margin:8px auto 4px;padding:5px 14px;border-radius:999px;background:rgba(179,55,46,.18);border:1px solid rgba(255,176,154,.45);color:#ffb09a;font-weight:900;font-size:14px;text-align:center}
+.intentWrap{text-align:center}
+.blockHint{font-size:11px;color:var(--muted);text-align:center;margin:4px 0 0}
+.pilesRow{display:flex;gap:10px;align-items:stretch;margin-top:12px}
+.pileBtn{position:relative;flex:1;background:var(--paper2);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:10px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:64px}
+.pileBtn:hover{border-color:var(--gold)}
+.pileIcon{font-size:26px;line-height:1}
+.pileBtn small{font-size:12px;color:var(--muted)}
+.pileBadge{position:absolute;top:-8px;right:-6px;background:var(--gold);color:#1a140d;font-weight:900;font-size:13px;min-width:28px;height:28px;border-radius:999px;display:grid;place-items:center;padding:0 6px;border:2px solid #12100e;box-shadow:0 4px 10px rgba(0,0,0,.5)}
+.pileBadge.discardBadge{background:#e8ddd0}
+.pileList{display:grid;gap:8px;margin:12px 0}
+.pileRow{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:var(--paper2);border-radius:10px;padding:10px 12px;font-size:14px}
+.pileRow b{color:var(--gold2)}
+.codexTabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.codexTabBtn{flex:1;min-width:96px;background:var(--paper);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 10px;font-size:14px;min-height:40px}
+.codexTabBtn.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:900}
+.npc.unknown{opacity:.92;border-style:dashed;text-align:center;padding:20px 14px}
+.npc.unknown .qmark{font-size:38px;line-height:1}
+.hand{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+@media(min-width:700px){.hand{grid-template-columns:repeat(4,1fr)}}
+.playcard{background:var(--card);color:#201a12;border-radius:10px;padding:9px 10px;border:1.5px solid #cbb98f;min-height:92px;text-align:left}
+.playcard:disabled{opacity:.5;filter:grayscale(.5)}
+.playcard b{font-size:14px;line-height:1.3}.cost{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:50%;background:var(--red);color:white;font-size:12px;float:right;margin-left:6px}
+.playcard p{font-size:12px;line-height:1.4;color:#5a4a33;margin:4px 0 0}
+.shopConfirm{margin-top:12px;border:1px solid var(--gold);background:#2a2116;border-radius:12px;padding:14px}
+.shopConfirm b{color:var(--gold2)}
+.goldFlash{transition:color .2s,transform .2s}
+.goldFlash.bump{color:#ffdf8a!important;transform:scale(1.15)}
+.rewardGrid,.shopGrid{display:grid;gap:10px}
+@media(min-width:700px){.rewardGrid{grid-template-columns:1fr 1fr 1fr}.shopGrid{grid-template-columns:1fr 1fr 1fr}}
+.codexGrid{display:grid;gap:12px}
+@media(min-width:760px){.codexGrid{grid-template-columns:1fr 1fr}}
+.npc{border:1px solid var(--line);background:var(--paper);border-radius:14px;padding:14px}
+.npc h4{margin:0}.npc.src{font-size:12px;color:var(--gold);background:#2a2116;padding:8px;border-radius:8px;margin-top:8px}
+.hidden{display:none!important}
+.log{background:#0f0d0b;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;color:#cbbfa9;max-height:140px;overflow:auto;white-space:pre-line}
+.choice{width:100%;text-align:left;background:var(--paper2);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:14px;margin-top:10px}
+.choice:hover{border-color:var(--gold)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:99;background:#fff;color:#111;padding:10px 16px;border-radius:999px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.4);font-size:14px}
+.relicBar{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:0 0 8px}
+.relicChip{border:1px solid var(--gold);background:#2a2116;color:var(--gold2);border-radius:999px;padding:2px 9px;font-size:12px;cursor:pointer;font-family:inherit;min-height:26px}
+.relicChip.mixed{border-color:#a97e2f;background:#241c10}
+.relicChip.curse{border-color:var(--red);background:#2a1210;color:#ff9a8f}
+.relicModalBg{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:120;display:grid;place-items:center;padding:16px}
+.relicModal{background:var(--paper);border:1px solid var(--gold);border-radius:16px;padding:20px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.kindBuff{color:#9fc49f}.kindMixed{color:var(--gold2)}.kindCurse{color:#ff9a8f}
+.relicGet{border:1px solid var(--gold);background:#2a2116;border-radius:12px;padding:12px 14px;margin:12px 0;text-align:left}
+.relicGet b{color:var(--gold2);display:block}
+.relicGet span{font-size:13px;color:var(--ink)}
+.soulfire{font-size:68px;line-height:1.2;animation:bob 1s infinite alternate ease-in-out;filter:drop-shadow(0 0 22px #7ad0ff) drop-shadow(0 0 12px #ff9a5a)}
+footer{font-size:12px;color:var(--muted);margin-top:24px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topinner">
+<div class="logo">地狱归途</div>
+<div class="stats">
+<span class="pill">❤️ 气血 <b id="uiHp">68/68</b></span>
+<span class="pill">🪙 冥币 <b id="uiGold">60</b></span>
+<span class="pill">🃏 牌组 <b id="uiDeck">10</b></span>
+<span class="pill">🏺 遗物 <b id="uiRelics">0</b></span>
+<span class="pill">🔥 执念 <b id="uiFloor">鬼门关</b></span>
+</div>
+<div class="tabs">
+<button class="tabbtn active" onclick="showTab('game')">闯关</button>
+<button class="tabbtn" onclick="showTab('codex')">图鉴</button>
+<button class="tabbtn" id="soundBtn" onclick="toggleSound()">音效：开</button>
+</div>
+</div></div>
+
+<div class="wrap" id="tab-game">
+<div id="relicBar" class="relicBar hidden"></div>
+<!-- INTRO -->
+<section id="view-intro">
+<div class="hero">
+<span class="seal">你醒来了</span>
+<h1>地狱<em>归途</em></h1>
+<p>你，<b>沈不归</b>，醒来发现自己躺在一片滚烫的铁地上。四周是望不到顶的黑，耳边有人在磨刀，空气里全是焦糊味。</p>
+<p>你不记得自己是怎么死的，也不记得这里是什么地方。脑子里只剩下两样东西：自己的名字，和手边这把断了半截的刀。</p>
+<p>头顶很远的地方，有一点光。先活下去——往上走。</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+<button class="btn" onclick="startGame()">提刀 · 往上走</button>
+<button class="btn ghost" onclick="showTab('codex')">图鉴</button>
+</div>
+</div>
+<div class="panel" style="margin-top:14px"><h3 style="margin-top:0">怎么玩</h3><p style="font-size:14px;color:var(--muted)">地图一关一张：先打通地府，再走登天路，最后到天庭。在当前这关的大地图上点金色发光的相邻节点前进，不能回头。怪物在图上只显示图标、不显示名字——小图标是普通怪，红边大图标是精英怪；商人和休息点会直接写在图上，打问号的是随机内容，点开才知道是什么。战斗是回合制卡牌：每回合 3 点真气，回合结束时手牌保留、不会扔掉，回合开始时再抽牌（基础抽 4 张），手牌上限 8 张——攥满了就抽不进来，得先打出去腾地方，敌人意图就显示在怪物下方，看清再出牌。手牌下方是抽牌堆和弃牌堆，上面标着各剩几张，点开能看堆里具体的牌（同样的牌合并写成 ×N）。格挡显示在血条里的白色一段，到下个回合开始就会消失，敌我都一样（少数牌和遗物能让你的格挡留住，不再消失）。你醒来时手里只有最基础的「斩魂刀」和「提刀格挡」两张牌，花样全靠一路上打怪选牌、奇遇和商店慢慢攒。还有遗物——随身生效的饰品，点任意一件就能看清它的具体效果，越稀有的越强。有些敌人身怀特殊机制：有的越打越凶，有的每回合给自己叠格挡，有的残血时会回血、或踏入二阶段——它的机制会写在名字下方，出牌前先看清。死了，就回到醒来的地方。</p></div>
+</section>
+
+<!-- MAP -->
+<section id="view-map" class="hidden">
+<div class="mapHead"><div><h2 style="margin:0" id="mapTitle">第一关 · 地府</h2><p style="margin:2px 0;color:var(--muted);font-size:13px" id="mapHint">一关一张大地图。选择一个发光节点前进，不能回头；打通本关最后一站，地图上方会出现通往下一关的入口。</p></div><button class="btn ghost" onclick="restart()">重开一局</button></div>
+<div class="actNav" id="actNav"></div>
+<div class="mapShell"><div class="mapScroll" id="mapScroll"><div class="mapCanvas" id="mapCanvas">
+<svg id="mapSvg" viewBox="0 0 1000 1180" preserveAspectRatio="none"></svg>
+<div id="token"><div id="tokenInner">🔥</div></div>
+</div></div></div>
+<div class="legend"><span>👹 普通怪（仅图标）</span><span>💀 精英怪 · 红边大图标（仅图标）</span><span>👑 Boss（仅图标）</span><span>🏮 商人 · 直接标在图上</span><span>♨️ 休息点 · 直接标在图上</span><span><b style="color:var(--gold2)">？</b> 随机内容 · 点开才知道</span><span>━ 走过的路会亮起</span></div>
+</section>
+
+<!-- BATTLE -->
+<section id="view-battle" class="hidden"><div class="panel">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><b id="battleTitle">战斗</b><span id="battleTurn" style="border:1px solid var(--gold);background:#2a2116;color:var(--gold2);border-radius:999px;padding:3px 12px;font-weight:900;font-size:14px">第 1 回合</span></div>
+<div class="enemyArt" id="enemyEmoji">👹</div>
+<h2 style="text-align:center;margin:4px 0" id="enemyName">小鬼</h2>
+<div class="intentWrap"><span id="intent" class="intentBelow">意图：—</span></div>
+<p id="enemyMech" style="text-align:center;font-size:13px;color:var(--gold2);margin:4px 0 0"></p><p id="enemyStatus" style="text-align:center;font-size:12px;color:#c9a0ff;margin:2px 0 0"></p>
+<div class="bar"><i id="enemyHpBar" class="hpFill" style="width:100%"></i><i id="enemyBlockBar" class="blockFill" style="width:0%"></i></div><p style="text-align:center;font-size:13px;margin:6px 0 0"><span id="enemyHpText"></span> · 敌方格挡 <span id="enemyBlock">0</span> <span style="color:#f7f3ea">■</span><span style="color:var(--muted)"> 白色为格挡</span></p>
+<hr style="border-color:var(--line)">
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><span>沈不归 · 气血 <b id="pHp"></b> · 格挡 <b id="pBlock">0</b> <span style="color:#f7f3ea">■</span><span style="color:var(--muted);font-size:12px"> 白色为格挡</span></span><span>真气 <b id="pEnergy">3/3</b></span></div>
+<div class="bar green"><i id="pHpBar" class="hpFill"></i><i id="pBlockBar" class="blockFill" style="width:0%"></i></div>
+<p class="blockHint">格挡只护住本轮：到下个回合开始时，未用完的格挡会消失（敌我都一样）。手牌在回合结束时保留，不会弃掉；回合开始时再抽牌（基础 4 张），手牌上限 8 张，攥满了无法再抽。手牌打空时会自动抽牌。</p>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px"><span>手牌 <b id="handCount" style="color:var(--gold2)">0/8</b></span><span style="color:var(--muted);font-size:12px">回合结束保留手牌 · 回合开始抽牌</span></div>
+<div class="hand" id="hand"></div>
+<div class="pilesRow">
+<button class="pileBtn" onclick="showPile('draw')"><span class="pileIcon">🎴</span><span>抽牌堆</span><small>点开看里面有什么牌</small><span class="pileBadge" id="pileDrawCount">0</span></button>
+<button class="pileBtn" onclick="showPile('discard')"><span class="pileIcon">🗑️</span><span>弃牌堆</span><small>点开看打出去的牌</small><span class="pileBadge discardBadge" id="pileDiscardCount">0</span></button>
+</div>
+<div style="display:flex;gap:10px;margin-top:14px"><button class="btn" style="flex:1" onclick="endTurn()">结束回合</button></div>
+<div class="log" id="battleLog" style="margin-top:12px"></div>
+</div></section>
+
+<!-- GENERIC PANEL for event/shop/rest/reward -->
+<section id="view-panel" class="hidden"><div class="panel" id="panelContent"></div></section>
+
+<section id="view-end" class="hidden"><div class="panel" style="text-align:center;padding:36px 18px"><div style="font-size:56px" id="endEmoji">💀</div><h2 id="endTitle">魂飞魄散</h2><p id="endText" style="color:var(--muted)"></p><button class="btn" onclick="restart()">回到最底层 · 再杀一次</button></div></section>
+
+</div>
+
+<!-- CODEX -->
+<div class="wrap hidden" id="tab-codex">
+<h2 style="margin-bottom:4px">图鉴</h2>
+<p style="color:var(--muted);font-size:14px;margin-top:4px">主角沈不归为虚构人物。没有遇到过的，不会显示——只留一个问号。遇到过的人、拿到过的牌和遗物，才会记进这里。</p>
+<div class="codexTabs">
+<button class="codexTabBtn active" id="codexTabBtn-char" onclick="switchCodex('char')">人物图鉴</button>
+<button class="codexTabBtn" id="codexTabBtn-cards" onclick="switchCodex('cards')">牌组图鉴</button>
+<button class="codexTabBtn" id="codexTabBtn-relics" onclick="switchCodex('relics')">遗物图鉴</button>
+</div>
+<div id="codex-section-char">
+<p style="color:var(--muted);font-size:13px">他们的来历、职司与典籍出处，都记在这里——见过之后才有。</p>
+<div class="codexGrid" id="codexGrid"></div>
+</div>
+<div id="codex-section-cards" class="hidden">
+<p style="color:var(--muted);font-size:13px">你这一局的牌组，以及你已经拿到过的牌。同样的牌只记一次，数量写在牌名后面。</p>
+<div class="codexGrid" id="cardCodexGrid"></div>
+</div>
+<div id="codex-section-relics" class="hidden">
+<p style="color:var(--muted);font-size:14px">遗物就是随身的饰品，得手后一直生效，点开能看具体效果。越稀有的越强。没拿到过的只显示问号。</p>
+<div class="codexGrid" id="relicGrid"></div>
+</div>
+<button class="btn ghost" style="margin-top:16px" onclick="showTab('game')">← 回到闯关</button>
+</div>
+
+<div id="pileModal" class="relicModalBg hidden" onclick="if(event.target===this)closePile()"><div class="relicModal" id="pileModalCard"></div></div>
+
+<div id="relicModal" class="relicModalBg hidden" onclick="if(event.target===this)closeRelicDetail()"><div class="relicModal" id="relicModalCard"></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script>
+const CONFIG={maxHp:68,startGold:60,mapHeight:1680};
+const HAND_LIMIT=8; // 手牌上限：回合结束保留手牌，回合开始抽牌，攥满 8 张就再也抽不进来
+let SND=true; let AC=null;
+function beep(f=520,d=.08,type='sine',g=.06){if(!SND)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();let o=AC.createOscillator(),gn=AC.createGain();o.type=type;o.frequency.value=f;gn.gain.value=g;o.connect(gn);gn.connect(AC.destination);o.start();gn.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+function toggleSound(){SND=!SND;document.getElementById('soundBtn').textContent='音效：'+(SND?'开':'关')}
+function toast(t){let el=document.getElementById('toast');el.textContent=t;el.classList.remove('hidden');setTimeout(()=>el.classList.add('hidden'),2200)}
+function showTab(t){document.getElementById('tab-game').classList.toggle('hidden',t!=='game');document.getElementById('tab-codex').classList.toggle('hidden',t!=='codex');document.querySelectorAll('.tabbtn').forEach((b,i)=>{if(i<2)b.classList.toggle('active',(t==='game'&&i===0)||(t==='codex'&&i===1))});if(t==='codex'&&typeof renderCodex==='function')renderCodex();window.scrollTo({top:0})}
+let CODEX_TAB='char';
+function switchCodex(tab){CODEX_TAB=tab;['char','cards','relics'].forEach(k=>{let sec=document.getElementById('codex-section-'+k);if(sec)sec.classList.toggle('hidden',k!==tab);let btn=document.getElementById('codexTabBtn-'+k);if(btn)btn.classList.toggle('active',k===tab)});renderCodex()}
+function groupedCounts(arr){let m={},order=[];arr.forEach(id=>{if(!(id in m))order.push(id);m[id]=(m[id]||0)+1});return order.map(id=>({id:id,count:m[id]}))}
+function cardLabel(id,count){let c=CARDS[id];if(!c)return id;return c.name+(count>1?' ×'+count:'')}
+function relicSeenSet(){if(!G)return new Set();if(!G.seenRelics)G.seenRelics=new Set(G.relics||[]);return G.seenRelics}
+function cardSeenSet(){if(!G)return new Set();if(!G.seenCards)G.seenCards=new Set(G.deck||[]);return G.seenCards}
+function npcSeenSet(){if(!G)return new Set();if(!G.seenNPC)G.seenNPC=new Set();return G.seenNPC}
+function addCardToDeck(id){G.deck.push(id);cardSeenSet().add(id)}
+function renderCodex(){
+ let cg=document.getElementById('codexGrid');if(!cg)return;
+ let seenNPC=npcSeenSet();
+ cg.innerHTML=NPCS.map(n=>{if(!seenNPC.has(n.name))return `<div class="npc unknown"><div class="qmark">❓</div><h4 style="margin:8px 0 2px">？？？</h4><small style="color:var(--muted)">尚未遇到</small><p style="font-size:13px;color:var(--muted);margin:8px 0 0">还没有遇到过——见过之后，它的来历和出处才会记在这里。</p></div>`;return `<div class="npc"><div style="display:flex;gap:10px;align-items:center"><span style="font-size:30px">${n.emoji}</span><div><h4>${n.name}</h4><small style="color:var(--muted)">${n.role}${n.preview?' · 后续章节预告':''}</small></div></div><div class="src">📜 出处：${n.src}</div></div>`}).join('');
+ let cardGrid=document.getElementById('cardCodexGrid');if(cardGrid){let seenCards=cardSeenSet();let deckCounts={};(G&&G.deck?G.deck:[]).forEach(id=>deckCounts[id]=(deckCounts[id]||0)+1);cardGrid.innerHTML=Object.keys(CARDS).map(id=>{let c=CARDS[id];if(!seenCards.has(id))return `<div class="npc unknown"><div class="qmark">❓</div><h4 style="margin:8px 0 2px">？？？</h4><small style="color:var(--muted)">尚未获得</small><p style="font-size:13px;color:var(--muted);margin:8px 0 0">还没有拿到过这张牌，拿到后才会记在这里。</p></div>`;let cnt=deckCounts[id]||0;return `<div class="npc"><div style="display:flex;gap:10px;align-items:center"><span style="font-size:30px">${c.emoji}</span><div><h4>${c.name}${cnt>1?' ×'+cnt:''}</h4><small style="color:var(--muted)">费用 ${c.cost}${cnt?' · 当前牌组有 '+cnt+' 张':' · 曾获得（当前牌组已无）'}</small></div></div><p style="font-size:14px;margin:8px 0 0">${c.text}</p></div>`}).join('')}
+ let rg=document.getElementById('relicGrid');if(rg){let seenRelics=relicSeenSet();rg.innerHTML=Object.keys(RELICS).map(id=>{let r=RELICS[id];if(!seenRelics.has(id))return `<div class="npc unknown"><div class="qmark">❓</div><h4 style="margin:8px 0 2px">？？？</h4><small style="color:var(--muted)">尚未获得</small><p style="font-size:13px;color:var(--muted);margin:8px 0 0">还没有拿到过这件遗物，拿到后才会记在这里。</p></div>`;return `<div class="npc" style="cursor:pointer" onclick="showRelicDetail('${id}')"><div style="display:flex;gap:10px;align-items:center"><span style="font-size:30px">${r.emoji}</span><div><h4>${r.name}</h4><small style="color:var(--muted)">${r.tierName} · 点开看详情</small></div></div><p style="font-size:14px;margin:8px 0 0">${r.desc}</p></div>`}).join('')}
+}
+function showPile(kind){if(!B)return;let arr=kind==='draw'?B.draw:B.discard;let title=kind==='draw'?'抽牌堆':'弃牌堆';let groups=groupedCounts(arr);let html=`<h3 style="text-align:center;margin:4px 0 2px">${kind==='draw'?'🎴':'🗑️'} ${title} · 共 ${arr.length} 张</h3><p style="text-align:center;color:var(--muted);font-size:13px;margin:0">${kind==='draw'?'还没抽到的牌都在这里（顺序随机，不按下面顺序抽）':'已经打出去、等洗回抽牌堆的牌都在这里'}</p>`;if(!arr.length)html+=`<p style="text-align:center;color:var(--muted);margin:18px 0">这里是空的。</p>`;else html+=`<div class="pileList">${groups.map(g=>{let c=CARDS[g.id];return `<div class="pileRow"><span>${c?c.emoji+' ':''}<b>${cardLabel(g.id,g.count)}</b></span><span style="color:var(--muted);font-size:12px">${c?('费用 '+c.cost+' · '+c.text):''}</span></div>`}).join('')}</div>`;html+=`<button class="btn" style="width:100%" onclick="closePile()">关上</button>`;document.getElementById('pileModalCard').innerHTML=html;document.getElementById('pileModal').classList.remove('hidden');beep(500,.05)}
+function closePile(){let m=document.getElementById('pileModal');if(m)m.classList.add('hidden')}
+
+/* ---------- DATA: CARDS ---------- */
+const CARDS={
+zhan:{name:'斩魂刀',cost:1,emoji:'🗡️',text:'造成 6 点伤害。',play:()=>damageEnemy(6)},
+heng:{name:'横断黄泉',cost:1,emoji:'🌊',text:'造成 5 点伤害，获得 3 点格挡。',play:()=>{damageEnemy(5);gainBlock(3)}},
+dang:{name:'提刀格挡',cost:1,emoji:'🛡️',text:'获得 6 点格挡。',play:()=>gainBlock(6)},
+pojun:{name:'破军三连',cost:2,emoji:'⚔️',text:'造成 6 点伤害 × 2 次。',play:()=>{damageEnemy(6);damageEnemy(6)}},
+zhinian:{name:'执念',cost:0,emoji:'🔥',text:'造成 2 点伤害，抽 1 张牌。',play:()=>{damageEnemy(2);drawCards(1)}},
+liesoul:{name:'燃魂一刀',cost:2,emoji:'☄️',text:'造成 18 点伤害，自己受到 2 点伤害。',play:()=>{damageEnemy(18);hurtPlayer(2,true)}},
+huiguang:{name:'回光',cost:1,emoji:'🌗',text:'回复 4 点气血，抽 1 张牌。',play:()=>{healPlayer(4);drawCards(1)}},
+duan:{name:'断生死线',cost:2,emoji:'✂️',text:'造成 12 点伤害；若敌人有格挡，额外 +8 点伤害。',play:()=>{let b=B.enemy.block>0?8:0;damageEnemy(12+b)}},
+taibai:{name:'借星光',cost:1,emoji:'⭐',text:'获得 5 点格挡，抽 1 张牌。',play:()=>{gainBlock(5);drawCards(1)}},
+leifa:{name:'引雷诀',cost:2,emoji:'⚡',text:'造成 16 点伤害。',play:()=>damageEnemy(16)},
+lotus:{name:'莲台护体',cost:1,emoji:'🪷',text:'获得 9 点格挡。',play:()=>gainBlock(9)},
+windfire:{name:'风火轮影',cost:1,emoji:'🔥',text:'造成 6 点伤害，抽 1 张牌。',play:()=>{damageEnemy(6);drawCards(1)}},
+minghuo:{name:'冥火咒',cost:1,emoji:'🕯️',text:'造成 7 点伤害，回复 2 点气血。',play:()=>{damageEnemy(7);healPlayer(2)}},
+guikui:{name:'鬼哭三叠',cost:2,emoji:'👻',text:'造成 5 点伤害 × 3 次。',play:()=>{damageEnemy(5);damageEnemy(5);damageEnemy(5)}},
+hunsha:{name:'魂砂护身',cost:0,emoji:'⏳',text:'获得 4 点格挡，抽 1 张牌。',play:()=>{gainBlock(4);drawCards(1)}},
+juqi:{name:'聚气',cost:0,emoji:'🌬️',text:'本回合真气 +1。',play:()=>{B.energy+=1;log('聚气：本回合真气 +1');renderBattle()}},
+ningshen:{name:'凝神',cost:1,emoji:'🧘',text:'抽 2 张牌。',play:()=>drawCards(2)},
+yingji:{name:'影袭连斩',cost:1,emoji:'🌑',text:'造成 4 点伤害 × 2 次。',play:()=>{damageEnemy(4);damageEnemy(4)}},
+dusha:{name:'蚀魂毒',cost:1,emoji:'🧪',text:'敌人获得 4 层中毒：回合开始时受到等同于层数的伤害，之后层数 -1。',play:()=>{B.enemy.poison=(B.enemy.poison||0)+4;log('敌方中毒 4');renderBattle()}},
+najia:{name:'纳气归元',cost:1,emoji:'🌀',text:'本场战斗真气上限 +1，并回复 1 点真气。',play:()=>{B.energyMax=(B.energyMax||3)+1;B.energy+=1;log('纳气归元：本场战斗真气上限 +1');renderBattle()}},
+buhuai:{name:'不坏金身',cost:2,emoji:'🧱',text:'获得 8 点格挡；本场战斗中，你的格挡在回合结束时不再消失。',play:()=>{gainBlock(8);B.blockPersist=true;log('不坏金身：本场战斗格挡不再消失')}},
+dinghun:{name:'定魂符',cost:2,emoji:'📿',text:'敌人下回合无法行动。',play:()=>{B.enemy.stun=true;log('定魂符贴上，敌方下回合无法行动');renderBattle()}},
+poxiao:{name:'破晓斩',cost:2,emoji:'🌅',text:'造成 11 点伤害，敌人获得易伤 2 回合（受到的伤害 +50%）。',play:()=>{damageEnemy(11);B.enemy.vuln=2;log('敌方易伤 2 回合');renderBattle()}},
+};
+const REWARD_POOL=['pojun','liesoul','duan','huiguang','taibai','leifa','lotus','windfire','heng','zhinian','minghuo','guikui','hunsha','juqi','ningshen','yingji'];
+/* 稀有牌池：效果更强的牌，只在精英 / Boss 奖励里出现 */
+const RARE_POOL=['buhuai','najia','dusha','dinghun','poxiao','liesoul','leifa','duan'];
+
+/* ---------- DATA: RELICS 遗物（饰品）· 越难获得越强 ---------- */
+const RELICS={
+tongqian:{name:'铜钱串',emoji:'🪙',tier:'common',tierName:'寻常遗物',src:'鬼市 · 奇遇宝箱',desc:'战斗开始时，获得 5 点格挡。'},
+zhusha:{name:'朱砂符',emoji:'🧧',tier:'common',tierName:'寻常遗物',src:'鬼市 · 奇遇宝箱',desc:'你打出的每次伤害 +1。'},
+canxiang:{name:'残香半炷',emoji:'🕯️',tier:'common',tierName:'寻常遗物',src:'鬼市 · 奇遇',desc:'每场战斗胜利后，回复 4 点气血。'},
+qiaoshi:{name:'奈何桥头石',emoji:'🪨',tier:'rare',tierName:'稀有遗物',src:'精英掉落 · 鬼市高价 · 宝箱',desc:'每回合开始时，获得 3 点格挡。'},
+shengsibu:{name:'生死簿残页',emoji:'📄',tier:'rare',tierName:'稀有遗物',src:'精英掉落 · 鬼市高价',desc:'获得时，最大气血 +15 并回复 15。'},
+suohunling:{name:'锁魂铃',emoji:'🔔',tier:'rare',tierName:'稀有遗物',src:'精英掉落 · 宝箱',desc:'战斗开始时，额外抽 1 张牌。'},
+yanluoyin:{name:'阎罗王印',emoji:'🔱',tier:'epic',tierName:'绝世遗物',src:'Boss 独占掉落',desc:'每回合真气 +1（上限变为 4）。'},
+dashenbian:{name:'打神鞭残段',emoji:'🐉',tier:'epic',tierName:'绝世遗物',src:'Boss 独占掉落',desc:'每回合多抽 1 张牌，每次伤害 +1。'},
+mengpowan:{name:'孟婆的碗',emoji:'🍵',tier:'epic',tierName:'绝世遗物',src:'Boss 独占掉落',desc:'战斗开始获得 12 格挡，胜利后回复 8 气血。'},
+tiexin:{name:'铁心丸',emoji:'💊',tier:'common',tierName:'寻常遗物',src:'鬼市 · 奇遇宝箱',desc:'获得时，最大气血 +8 并回复 8。'},
+bubi:{name:'不摧壁',emoji:'🧱',tier:'rare',tierName:'稀有遗物',src:'精英掉落 · 鬼市高价',desc:'你的格挡在回合结束时不再消失。'},
+zhenyuanzhu:{name:'真元珠',emoji:'🔮',tier:'rare',tierName:'稀有遗物',src:'精英掉落 · 宝箱',desc:'每场战斗第一回合，真气 +1。'},
+xueyuchan:{name:'血玉蟾',emoji:'🐸',tier:'rare',tierName:'稀有遗物',src:'精英掉落 · 宝箱',desc:'每回合开始，回复 1 点气血。'},
+taiji:{name:'太极玉佩',emoji:'☯️',tier:'epic',tierName:'绝世遗物',src:'Boss 独占掉落',desc:'你的格挡不再消失，每回合开始额外获得 4 点格挡。'},
+niepan:{name:'涅槃凤羽',emoji:'🪶',tier:'epic',tierName:'绝世遗物',src:'Boss 独占掉落',desc:'每场战斗第一次气血归零时，以 20 点气血重新站起来。'},
+zhenjia:{name:'镇魂铁枷',emoji:'⛓️',tier:'common',tierName:'寻常遗物',kind:'mixed',src:'鬼市 · 奇遇宝箱',desc:'战斗开始获得 10 点格挡。每回合少抽 1 张牌。'},
+shixue:{name:'噬魂铃',emoji:'🛎️',tier:'rare',tierName:'稀有遗物',kind:'mixed',src:'精英掉落 · 宝箱',desc:'你打出的每次伤害 +2。每回合开始，你失去 2 点气血。'},
+boming:{name:'薄命金册',emoji:'📕',tier:'epic',tierName:'绝世遗物',kind:'mixed',src:'Boss 独占掉落',desc:'每回合真气 +1，每次伤害 +1。获得时最大气血 -12。'},
+xiulock:{name:'锈蚀锁链',emoji:'🔗',tier:'common',tierName:'寻常遗物',kind:'curse',src:'宝箱陷阱',desc:'每场战斗开始时，你先失去 5 点气血。它缠上你的手腕，甩不掉。'},
+};
+function hasRelic(id){return !!(typeof G!=='undefined'&&G&&G.relics&&G.relics.includes(id))}
+function relicDmgBonus(){return (hasRelic('zhusha')?1:0)+(hasRelic('dashenbian')?1:0)+(hasRelic('shixue')?2:0)+(hasRelic('boming')?1:0)}
+function drawCount(){return Math.max(3,4+(hasRelic('dashenbian')?1:0)-(hasRelic('zhenjia')?1:0))}
+function relicKind(r){return r.kind||'buff'}
+function showRelicDetail(id){let r=RELICS[id];if(!r)return;let owned=hasRelic(id);let m=document.getElementById('relicModal');document.getElementById('relicModalCard').innerHTML=`<div style="text-align:center;font-size:52px;line-height:1.2">${r.emoji}</div><h3 style="text-align:center;margin:6px 0 2px">${r.name}</h3><p style="text-align:center;margin:0 0 10px"><span style="color:var(--muted);font-size:13px">${r.tierName}${owned?' · 已在身上':''}</span></p><p style="font-size:15px;margin:0 0 10px">${r.desc}</p><button class="btn" style="width:100%" onclick="closeRelicDetail()">知道了</button>`;m.classList.remove('hidden');beep(500,.05)}
+function closeRelicDetail(){document.getElementById('relicModal').classList.add('hidden')}
+function pickRelic(tier){let c=Object.keys(RELICS).filter(id=>RELICS[id].tier===tier&&RELICS[id].kind!=='curse'&&!G.relics.includes(id));return c.length?c[Math.floor(Math.random()*c.length)]:null}
+function grantRelic(id){if(!id||!RELICS[id]||G.relics.includes(id))return null;G.relics.push(id);relicSeenSet().add(id);if(id==='shengsibu'){G.maxHp+=15;G.hp=Math.min(G.maxHp,G.hp+15)}if(id==='boming'){G.maxHp=Math.max(30,G.maxHp-12);G.hp=Math.min(G.hp,G.maxHp)}if(id==='tiexin'){G.maxHp+=8;G.hp=Math.min(G.maxHp,G.hp+8)}updateHUD();return RELICS[id]}
+function relicBanner(r,src){return `<div class="relicGet"><b>${r.emoji} ${src}：${r.name}（${r.tierName}）</b><span>${r.desc}</span></div>`}
+
+/* ---------- DATA: NPC / ENEMIES with sources ---------- */
+const NPCS=[
+{emoji:'🚪',name:'鬼门关守卒 · 小鬼群',role:'地府入口守卒',src:'《西游记》与民间信仰：人死后经鬼门关入地府，为阴阳分界第一关。',hp:28,atk:6},
+{emoji:'👹',name:'拔舌狱 · 舌犁鬼',role:'十八层·第一层 拔舌地狱狱卒',src:'十八层名目从《水陆全图》《玉历宝钞》：一层拔舌、二层剪刀、三层铁树……十八层刀锯。',hp:34,atk:7,mech:{k:'grow',v:1,desc:'每回合结束，攻击 +1，越拖越疼'}},
+{emoji:'🐂',name:'牛头',role:'地府勾魂使者（与马面并称）',src:'《地藏菩萨本愿经》《铁城泥犁经》系统：牛头马面为地府勾魂、押解亡魂的使者。法器为索魂锁链（民间形象）。',hp:52,atk:9,elite:true,mech:{k:'shield',v:6,desc:'每回合结束，给自己叠 6 点格挡'}},
+{emoji:'🐴',name:'马面',role:'地府勾魂使者',src:'同牛头，出《地藏经》及民间城隍信仰；二人常成对出现于城隍庙、地狱变相图。',hp:52,atk:9,elite:true,mech:{k:'heal',desc:'气血低于四成时，会回一次血（回复三成）'}},
+{emoji:'⚫',name:'黑无常 · 范无救',role:'勾魂无常',src:'《玉历宝钞》及民间信仰：黑无常范无救（范无咎），与白无常谢必安搭档勾魂；“无常”取人生无常之意。',hp:58,atk:10,elite:true,mech:{k:'grow',v:2,desc:'每回合结束，攻击 +2'}},
+{emoji:'⚪',name:'白无常 · 谢必安',role:'勾魂无常',src:'民间信仰：谢必安，人称七爷，高帽书“一见生财”；与八爷范无救并列十大阴帅之一。',hp:58,atk:8,elite:true,mech:{k:'shield',v:8,desc:'每回合结束，给自己叠 8 点格挡'}},
+{emoji:'📖',name:'判官 · 崔珏',role:'幽冥判官，掌生死簿',src:'《西游记》第十回：崔珏为泾河龙王旧友、太宗时曾为潼阳县令，死后为地府判官，私改生死簿添太宗阳寿。',hp:64,atk:10,elite:true,mech:{k:'heal',desc:'气血低于四成时，会翻动生死簿回一次血（回复三成）'}},
+{emoji:'🍵',name:'孟婆',role:'奈何桥畔，掌孟婆汤',src:'民间传说与《玉历宝钞》系统：亡魂过奈何桥饮孟婆汤忘却前生，再入轮回。本作中她是事件 NPC——你偏不喝。',hp:40,atk:6,eventOnly:true},
+{emoji:'👑',name:'阎罗王',role:'十殿阎罗之五殿殿主',src:'《西游记》第十一回及《玉历宝钞》：十殿为秦广、楚江、宋帝、五官、阎罗、平等、泰山、都市、卞城、转轮王；阎罗王本居第一殿，后居五殿，传说包拯夜审阴间与此合流。',hp:96,atk:12,boss:true,mech:{k:'phase2',atk:5,desc:'气血过半后踏入二阶段，攻击 +5'}},
+{emoji:'🛡️',name:'王灵官',role:'道教护法天神 · 南天门守将',src:'道教护法神，明代极受尊崇；《西游记》第七回：孙悟空打到灵霄殿外，唯王灵官独战悟空不分胜负，等来雷部三十六员雷将。',hp:78,atk:11,elite:true,mech:{k:'shield',v:8,desc:'每回合结束，给自己叠 8 点格挡'}},
+{emoji:'🌩️',name:'四大天王',role:'南天门四方镇守',src:'佛教四大天王（持国、增长、广目、多闻）与《封神演义》魔家四将合流；《西游记》中为南天门守将，法器：青云剑、混元伞、花狐貂、碧玉琵琶（封神版）。',hp:92,atk:12,elite:true,mech:{k:'grow',v:2,desc:'每回合结束，攻击 +2'}},
+{emoji:'🗼',name:'托塔天王 · 李靖',role:'天庭兵马统帅',src:'《封神演义》《西游记》：李靖得燃灯道人授玲珑宝塔镇哪吒，故称托塔天王；天庭讨伐花果山时为元帅。',hp:88,atk:11,boss:true,mech:{k:'phase2',atk:4,desc:'气血过半后祭起宝塔，攻击 +4'}},
+{emoji:'🪷',name:'哪吒',role:'三坛海会大神',src:'《封神演义》：灵珠子转世，莲花化身，法器乾坤圈、混天绫、风火轮、火尖枪；《西游记》中为李靖三子，随父征讨。',hp:84,atk:13,boss:true,mech:{k:'phase2',atk:4,desc:'气血过半后现三头六臂，攻击 +4'}},
+{emoji:'🐕',name:'二郎神 · 杨戬',role:'灌江口二郎真君',src:'《封神演义》《西游记》第六回：杨戬修八九玄功，持三尖两刃刀，携哮天犬、梅山兄弟，曾独战孙悟空。天庭战力天花板之一（后续 Boss 预告）。',hp:118,atk:14,boss:true,mech:{k:'phase2',atk:5,desc:'气血过半后开天眼，攻击 +5'}},
+{emoji:'⭐',name:'太白金星',role:'天庭文官 · 传旨星君',src:'道教星神，本为西方白帝之子/金星神；《西游记》中两次下界招安孙悟空，是天庭主和派文官的代表（后续事件 NPC 预告）。',hp:60,atk:7,preview:true},
+{emoji:'☁️',name:'玉皇大帝',role:'天庭之主（后续正殿 Boss）',src:'道教神系，《高上玉皇本行集经》：玉皇为三界主宰；《西游记》中居灵霄宝殿。本作立意之靶心——满口天条者，地图尽头见。',hp:150,atk:15,boss:true,preview:true},
+];
+/* 图鉴改为动态渲染：未遇到的只显示问号，见 renderCodex() */
+
+/* ---------- MAP ---------- */
+const LAYERS=[
+{act:1,band:'第一幕 · 地府 — 十八层 · 刀锯狱（最底层）',types:['start']},
+{act:1,types:['battle','battle']},
+{act:1,types:['battle','event','battle']},
+{act:1,types:['shop','battle','event']},
+{act:1,types:['elite','rest','elite']},
+{act:1,types:['battle','treasure','battle']},
+{act:1,types:['elite','event']},
+{act:1,types:['battle','event','treasure']},
+{act:1,band:'第一幕 · 五殿 — 阎罗殿前',types:['boss']},
+{act:2,band:'第二幕 · 登天路 — 逆行黄泉',types:['event','rest']},
+{act:2,types:['battle','battle']},
+{act:2,types:['rest','shop']},
+{act:2,types:['battle','elite']},
+{act:2,types:['shop','battle','event']},
+{act:3,band:'第三幕 · 天庭 — 南天门',types:['elite']},
+{act:3,types:['elite','battle']},
+{act:3,types:['boss','boss']},
+{act:3,band:'第三幕 · 天庭 — 灌江口真君',types:['boss']},
+{act:3,band:'第三幕 · 灵霄殿外 — 后续章节',types:['final']},
+];
+const TYPEINFO={start:{e:'🚪',l:'起点',s:''},battle:{e:'👹',l:'普通战斗',s:''},elite:{e:'💀',l:'精英战斗',s:''},event:{e:'?',l:'随机内容',s:''},shop:{e:'🏮',l:'商人',s:'买卖'},rest:{e:'♨️',l:'休息点',s:'歇脚恢复'},treasure:{e:'?',l:'随机内容',s:''},boss:{e:'👑',l:'Boss 战',s:''},final:{e:'☁️',l:'灵霄殿',s:'终点'}};
+/* 一关一张大地图：每一关有自己的高度、标题与副标题，地图只渲染当前查看的那一关 */
+const ACT_DEFS=[
+{act:1,title:'第一关 · 地府',sub:'十八层 · 五殿阎罗',height:1460},
+{act:2,title:'第二关 · 登天路',sub:'逆行黄泉 · 奈何桥',height:920},
+{act:3,title:'第三关 · 天庭',sub:'南天门 · 灵霄殿外',height:940},
+];
+function actDef(act){return ACT_DEFS.find(a=>a.act===act)||ACT_DEFS[0]}
+function actLayerList(act){let out=[];LAYERS.forEach((L,li)=>{if(L.act===act)out.push(li)});return out}
+function actLocalY(act,layer){let list=actLayerList(act);let idx=list.indexOf(layer);let h=actDef(act).height;if(list.length<=1||idx<0)return h-90;return h-90-idx*((h-180)/(list.length-1))}
+/* 地图节点显示规则：怪物只给图标不给名字；商人/休息点直接写明；随机内容统一用问号 */
+function nodeDisplay(n){
+ if(n.type==='battle')return{icon:'👹',label:'',sub:'',cls:'kind-normal',title:'普通战斗'};
+ if(n.type==='elite')return{icon:'💀',label:'',sub:'',cls:'kind-elite',title:'精英战斗 · 更强，奖励更好'};
+ if(n.type==='boss')return{icon:'👑',label:'',sub:'',cls:'kind-boss',title:'Boss 战'};
+ if(n.type==='shop')return{icon:'🏮',label:n.act>=2?'天市商人':'鬼市商人',sub:'商人',cls:'kind-shop',title:'商人 · 买卖'};
+ if(n.type==='rest')return{icon:'♨️',label:'休息点',sub:'歇脚恢复',cls:'kind-rest',title:'休息点'};
+ if(n.type==='event'||n.type==='treasure')return{icon:'?',label:'',sub:'',cls:'kind-mystery',title:'随机内容 · 点开才知道'};
+ if(n.type==='start')return{icon:'🚪',label:'起点',sub:'',cls:'kind-start',title:'起点'};
+ if(n.type==='final')return{icon:'☁️',label:'灵霄殿',sub:'终点',cls:'kind-final',title:'灵霄殿 · 终点'};
+ return{icon:'•',label:'',sub:'',cls:'',title:''};
+}
+let G=null;
+function newGameState(){return{hp:CONFIG.maxHp,maxHp:CONFIG.maxHp,gold:CONFIG.startGold,deck:['zhan','zhan','zhan','zhan','zhan','dang','dang','dang','dang','dang'],relics:[],seenNPC:new Set(),seenCards:new Set(['zhan','dang']),seenRelics:new Set(),layer:0,nodeId:'n0-0',viewAct:1,nodes:[],edges:[],visited:new Set(['n0-0'])}}
+function genMap(){G.nodes=[];G.edges=[];LAYERS.forEach((L,li)=>{let n=L.types.length;L.types.forEach((t,ci)=>{let x=n===1?50:50+(ci-(n-1)/2)*26;let y=actLocalY(L.act,li);G.nodes.push({id:`n${li}-${ci}`,layer:li,col:ci,type:t,x,y,act:L.act})});if(li>0){let prev=G.nodes.filter(x=>x.layer===li-1).sort((a,b)=>a.x-b.x),cur=G.nodes.filter(x=>x.layer===li).sort((a,b)=>a.x-b.x);
+ // 整齐连线：只连横向相邻的列，避免交叉。每个当前节点连最近的上一层节点；Boss/终点汇聚全部。
+ cur.forEach(c=>{let sorted=[...prev].sort((a,b)=>Math.abs(a.x-c.x)-Math.abs(b.x-c.x));if(c.type==='boss'||c.type==='final'){sorted.forEach(p=>G.edges.push({from:p.id,to:c.id}))}else{G.edges.push({from:sorted[0].id,to:c.id});let second=sorted[1];if(second&&Math.abs(second.x-c.x)<=28&&Math.random()<0.38&&prev.length>1&&cur.length>1){ // 偶尔多一条邻近支线，但只连相邻列，不跨列
+   if(!G.edges.some(e=>e.from===second.id&&e.to===c.id))G.edges.push({from:second.id,to:c.id})}}});
+ // 保证每个上一层节点至少有一条出路，连到最近的当前节点
+ prev.forEach(p=>{if(!G.edges.some(e=>e.from===p.id)){let near=[...cur].sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0];G.edges.push({from:p.id,to:near.id})}});
+ // 去重
+ G.edges=G.edges.filter((e,i,arr)=>arr.findIndex(x=>x.from===e.from&&x.to===e.to)===i);
+}})}
+function nodeById(id){return G.nodes.find(n=>n.id===id)}
+function reachable(){return G.edges.filter(e=>e.from===G.nodeId).map(e=>e.to)}
+function currentAct(){let n=nodeById(G.nodeId);return n?n.act:1}
+function unlockedActs(){let s=new Set([1]);G.visited.forEach(id=>{let n=nodeById(id);if(n)s.add(n.act)});reachable().forEach(id=>{let n=nodeById(id);if(n)s.add(n.act)});return s}
+function viewActMap(act){G.viewAct=act;renderMap()}
+function renderMap(){
+let viewAct=G.viewAct||currentAct();let curAct=currentAct();let def=actDef(viewAct);let isCurrentView=viewAct===curAct;
+let c=document.getElementById('mapCanvas');c.querySelectorAll('.node,.chapterBand,.portalNode').forEach(e=>e.remove());
+c.style.height=def.height+'px';
+let svg=document.getElementById('mapSvg');svg.setAttribute('viewBox',`0 0 1000 ${def.height}`);let reach=isCurrentView?reachable():[];
+let unlocked=unlockedActs();
+/* 关卡切换条：一关一张大地图 */
+document.getElementById('actNav').innerHTML=ACT_DEFS.map(a=>{let st=a.act===curAct?'🔥 进行中':unlocked.has(a.act)?(G.visited.has(G.nodes.find(n=>n.act===a.act&&n.type==='boss')?.id)||a.act<curAct?'✓ 已抵达':'可查看'):'🔒 尚未抵达';return `<button class="actNavBtn ${a.act===viewAct?'viewing':''} ${unlocked.has(a.act)?'':'lockedAct'}" ${unlocked.has(a.act)?`onclick="viewActMap(${a.act})"`:''}><b>${a.title}</b>${a.sub} · ${st}</button>`}).join('');
+document.getElementById('mapTitle').textContent=def.title+' · 大地图';
+document.getElementById('mapHint').textContent=isCurrentView?'本关一张大地图：点金色发光的相邻节点前进，不能回头。怪物只看图标，商人与休息点直接标在图上，问号是随机内容。':(viewAct<curAct?'这是已经走过的那一关的大地图，只能查看，不能回头重打。':'这一关还没走到，只能先看看地图轮廓。点回当前关继续前进。');
+/* 只画本关内部的连线，跨关连线改由地图顶部的「通往下一关」入口承担 */
+let actEdges=G.edges.filter(e=>{let a=nodeById(e.from),b=nodeById(e.to);return a&&b&&a.act===viewAct&&b.act===viewAct});
+svg.innerHTML='<defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'+actEdges.map(e=>{let a=nodeById(e.from),b=nodeById(e.to);let done=G.visited.has(e.from)&&G.visited.has(e.to);let hot=isCurrentView&&e.from===G.nodeId;let x1=a.x*10,y1=a.y,x2=b.x*10,y2=b.y;let mid=Math.abs(y2-y1)*0.45;let d=`M ${x1} ${y1} C ${x1} ${y1-mid}, ${x2} ${y2+mid}, ${x2} ${y2}`;let stroke=done?'#e6c88a':hot?'#d9b878':'#8a7a63';let w=done?5:hot?4.5:2.6;let op=done?1:hot?.95:.42;return `<path d="${d}" fill="none" stroke="#0d0b09" stroke-width="${w+3}" opacity="${op*.55}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${stroke}" stroke-width="${w}" opacity="${op}" stroke-linecap="round" ${done||hot?'filter="url(#glow)"':''}/>`}).join('');
+LAYERS.forEach((L,li)=>{if(L.band&&L.act===viewAct){let y=actLocalY(viewAct,li);let d=document.createElement('div');d.className='chapterBand';d.style.top=Math.max(6,y-58)+'px';d.innerHTML=`<span>${L.band}</span><span></span>`;c.appendChild(d)}});
+G.nodes.filter(n=>n.act===viewAct).forEach(n=>{let disp=nodeDisplay(n);let b=document.createElement('button');b.className='node '+disp.cls+' '+(G.visited.has(n.id)?'done ':'')+(isCurrentView&&n.id===G.nodeId?'current ':'')+(reach.includes(n.id)?'reachable':'locked');b.style.left=n.x+'%';b.style.top=n.y+'px';b.innerHTML=`<div class="nodeIcon">${disp.icon}</div>`+(disp.label?`<div><span class="nodeLabel">${disp.label}</span></div>`:'')+(disp.sub?`<div class="nodeSub">${disp.sub}</div>`:'');b.title=disp.title;if(reach.includes(n.id))b.onclick=()=>moveTo(n);c.appendChild(b)});
+/* 跨关入口：当前节点能通往下一关时，在本关地图顶部显示入口按钮 */
+if(isCurrentView){let cross=reach.map(id=>nodeById(id)).filter(n=>n&&n.act!==viewAct);if(cross.length){let p=document.createElement('button');p.className='portalNode';p.textContent=`⛩️ 通往下一关 · ${actDef(cross[0].act).title} →`;p.onclick=()=>moveTo(cross[0]);c.appendChild(p)}}
+let cur=nodeById(G.nodeId);let tok=document.getElementById('token');tok.style.display=isCurrentView?'block':'none';if(isCurrentView&&cur){tok.style.left=cur.x+'%';tok.style.top=cur.y+'px'}
+updateHUD();setTimeout(()=>{let target=isCurrentView&&cur?cur.y-320:def.height;document.getElementById('mapScroll').scrollTo({top:target,behavior:'smooth'})},60);
+}
+function labelFor(n){let d=nodeDisplay(n);return d.label||d.title}
+function moveTo(n){
+beep(300,.15,'sine',.05);
+let crossAct=n.act!==currentAct();
+G.nodeId=n.id;G.layer=n.layer;G.visited.add(n.id);G.viewAct=n.act;
+document.querySelectorAll('.node,.portalNode').forEach(el=>el.style.pointerEvents='none');
+if(crossAct){toast(`进入 ${actDef(n.act).title}`);setTimeout(()=>{beep(660,.1);renderMap();enterNode(n)},450);return}
+let tok=document.getElementById('token');tok.style.left=n.x+'%';tok.style.top=n.y+'px';
+document.getElementById('mapScroll').scrollTo({top:n.y-320,behavior:'smooth'});
+setTimeout(()=>{beep(660,.1);renderMap();enterNode(n)},820);
+}
+function enterNode(n){
+if(n.type==='start')return showMap();
+if(n.type==='battle'||n.type==='elite'||n.type==='boss')startBattle(n);
+else if(n.type==='event')showEvent(n);
+else if(n.type==='shop')showShop(n);
+else if(n.type==='rest')showRest(n);
+else if(n.type==='treasure'){let rid=Math.random()<0.55?pickRelic(Math.random()<0.6?'common':'rare'):null;if(!hasRelic('xiulock')&&Math.random()<0.16){let cr=grantRelic('xiulock');showPanel(`<div style="text-align:center"><div style="font-size:52px">🔗</div><h2>陪葬宝箱 · 箱底有诈</h2><p style="color:var(--muted)">你伸手去够箱底的旧物，一条锈蚀的锁链顺着手腕缠了上来，越挣越紧，甩都甩不掉。</p>${relicBanner(cr,'获得遗物')}<button class="btn" onclick="backToMap()">认了 · 继续向上</button></div>`);updateHUD()}else if(rid){let r=grantRelic(rid);showPanel(`<div style="text-align:center"><div style="font-size:52px">${r.emoji}</div><h2>陪葬宝箱 · 底层有旧物</h2><p style="color:var(--muted)">不知哪位王侯的陪葬品。金银下面，还压着一件旧物——你刚碰到它，它就像认得你一样，自己留了下来。</p>${relicBanner(r,'获得遗物')}<button class="btn" onclick="backToMap()">收好 · 继续向上</button></div>`)}else{G.gold+=45;showPanel(`<div style="text-align:center"><div style="font-size:52px">🎁</div><h2>陪葬宝箱</h2><p style="color:var(--muted)">不知哪位王侯的陪葬品，如今归你赶路。冥币 +45。</p><button class="btn" onclick="backToMap()">收好 · 继续向上</button></div>`)}updateHUD()}
+else if(n.type==='final')showPanel(`<div style="text-align:center"><div style="font-size:52px">☁️</div><h2>灵霄宝殿 · 后续章节</h2><p style="color:var(--muted)">殿门之内，玉皇高坐，太白垂首——他们都说这是天命。<br>本版归途到天庭前阵为止：你已打穿地府、逆行黄泉、破南天门前阵。<br><b style="color:var(--gold2)">下一章：质问玉帝</b>，路线已在地图上标明。</p><button class="btn" onclick="winGame(true)">以天庭前阵通关本版</button> <button class="btn ghost" onclick="backToMap()">回地图看看全程</button></div>`);
+}
+function showMap(){if(G)G.viewAct=currentAct();['view-intro','view-battle','view-panel','view-end'].forEach(id=>document.getElementById(id).classList.add('hidden'));document.getElementById('view-map').classList.remove('hidden');renderMap()}
+function showPanel(html){['view-map','view-battle'].forEach(id=>document.getElementById(id).classList.add('hidden'));let v=document.getElementById('view-panel');v.classList.remove('hidden');document.getElementById('panelContent').innerHTML=html;window.scrollTo({top:0,behavior:'smooth'})}
+function backToMap(){document.getElementById('view-panel').classList.add('hidden');showMap();checkActBanner()}
+function checkActBanner(){let n=nodeById(G.nodeId);if(n.layer===9)toast('你走出了地府的地界——前面这条路，是往上走的');if(n.layer===14)toast('云越来越近了。守门的人，衣冠整齐，笑得客气')}
+function updateHUD(){document.getElementById('uiHp').textContent=G.hp+'/'+G.maxHp;document.getElementById('uiGold').textContent=G.gold;document.getElementById('uiDeck').textContent=G.deck.length;let rp=document.getElementById('uiRelics');if(rp)rp.textContent=(G.relics||[]).length;let rb=document.getElementById('relicBar');if(rb){if(G.relics&&G.relics.length){rb.classList.remove('hidden');rb.innerHTML='<span style="color:var(--muted);font-size:12px">随身遗物 · 点开看效果</span>'+G.relics.map(id=>{let r=RELICS[id];let k=relicKind(r);return `<button class="relicChip ${k==='buff'?'':k}" onclick="showRelicDetail('${id}')">${r.emoji} ${r.name}</button>`}).join('')}else{rb.classList.add('hidden');rb.innerHTML=''}}let n=nodeById(G.nodeId);document.getElementById('uiFloor').textContent=n?actDef(n.act).title:'鬼门关'}
+function startGame(){G=newGameState();genMap();beep(440,.12);showMap();toast('从最底层，往上杀')}
+
+/* ---------- BATTLE ---------- */
+let B=null;
+function pickEnemy(n){
+if(n.type==='boss'&&n.layer===8)return NPCS.find(x=>x.name.includes('阎罗'));
+if(n.type==='boss'&&n.layer===16)return NPCS.find(x=>x.name.includes(n.col===0?'李靖':'哪吒'));
+if(n.type==='boss'&&n.layer===17)return NPCS.find(x=>x.name.includes('杨戬'));
+if(n.type==='elite'&&n.layer===4)return NPCS[Math.random()<.5?2:3];
+if(n.type==='elite'&&n.layer===6)return NPCS[Math.random()<.5?4:5];
+if(n.type==='elite'&&n.layer===12)return {emoji:'⛩️',name:'登天梯力士',role:'登天梯守梯力士',src:'道门登天梯传说与天门守卫信仰：天梯险峻，有力士守梯，登天者须过此关。',hp:72,atk:11,mech:{k:'shield',v:7,desc:'每回合结束，给自己叠 7 点格挡'}};
+if(n.type==='elite'&&n.layer===14)return NPCS.find(x=>x.name.includes('王灵官'));
+if(n.type==='elite'&&n.layer===15)return NPCS.find(x=>x.name.includes('四大天王'));
+if(n.type==='elite')return NPCS[6];
+if(n.layer>=10)return {emoji:'🗡️',name:'天梯守卫 · 天兵',role:'南天门外围天兵',src:'《西游记》天庭兵制：天兵天将守天门、天河。',hp:38,atk:8,mech:{k:'grow',v:1,desc:'每回合结束，攻击 +1'}};
+return NPCS[n.layer%2?1:0];
+}
+function startBattle(n){
+let base=pickEnemy(n);npcSeenSet().add(base.name);let scale=n.type==='boss'?1.35:n.type==='elite'?1.25:1.0+n.layer*0.06;
+let emax=3+(hasRelic('yanluoyin')?1:0)+(hasRelic('boming')?1:0);
+B={node:n,enemy:{...base,hp:Math.round(base.hp*scale),maxHp:Math.round(base.hp*scale),block:0,intent:null,poison:0,vuln:0,stun:false,mechUsed:false},draw:[...G.deck].sort(()=>Math.random()-.5),hand:[],discard:[],energy:emax,energyMax:emax,block:0,turn:1,blockPersist:false,niepanUsed:false};
+B.enemy.atk+=n.type==='boss'?3:n.type==='elite'?2:(n.layer>=3?2:0);
+if(hasRelic('tongqian'))B.block+=5;if(hasRelic('mengpowan'))B.block+=12;if(hasRelic('qiaoshi'))B.block+=3;if(hasRelic('zhenjia'))B.block+=10;if(hasRelic('taiji'))B.block+=4;if(hasRelic('zhenyuanzhu'))B.energy+=1;
+if(hasRelic('xiulock')){G.hp-=5;if(G.hp<=0){B=null;return gameOver()}}
+rollIntent();drawCards(drawCount());if(hasRelic('suohunling'))drawCards(1);
+['view-map','view-panel','view-intro'].forEach(id=>document.getElementById(id).classList.add('hidden'));document.getElementById('view-battle').classList.remove('hidden');
+document.getElementById('battleTitle').textContent=n.type==='boss'?'👑 Boss 战':n.type==='elite'?'💀 精英战':'👹 狱卒战';
+document.getElementById('battleLog').textContent=`${base.name} 拦住了去路。`+(base.mech?` 特殊机制：${base.mech.desc}`:'')+(hasRelic('xiulock')?'🔗 锈蚀锁链勒紧手腕，战斗开始你先失去 5 点气血。':'')+(hasRelic('zhenjia')?'⛓️ 镇魂铁枷护住要害（+10 格挡），但每回合少抽 1 张牌。':'');
+renderBattle();window.scrollTo({top:0});
+}
+function rollIntent(){let r=Math.random();B.enemy.intent=r<.72?{k:'atk',v:B.enemy.atk+Math.floor(Math.random()*4)}:r<.88?{k:'def',v:15}:{k:'buff',v:3}}
+function drawCards(c){let drawn=0;for(let i=0;i<c;i++){if(B.hand.length>=HAND_LIMIT)break;if(!B.draw.length){B.draw=[...B.discard].sort(()=>Math.random()-.5);B.discard=[]}if(!B.draw.length)break;B.hand.push(B.draw.pop());drawn++}return drawn}
+function autoDrawIfEmpty(){if(!B||B.enemy.hp<=0)return;if(B.hand.length>0)return;if(!B.draw.length&&!B.discard.length)return;let before=B.hand.length;drawCards(drawCount());let got=B.hand.length-before;if(got>0)log(`手牌打空，自动抽 ${got} 张牌`)}
+function gainBlock(v){B.block+=v;log(`获得 ${v} 格挡`);renderBattle()}
+function healPlayer(v){G.hp=Math.min(G.maxHp,G.hp+v);log(`回复 ${v} 气血`)}
+function hurtPlayer(v,ignore){let d=ignore?v:Math.max(0,v-B.block);if(!ignore)B.block=Math.max(0,B.block-v);G.hp-=d;log(`受到 ${d} 点伤害`);if(G.hp<=0&&!tryRevive())gameOver()}
+function damageEnemy(v){v+=relicDmgBonus();if(B.enemy.vuln>0)v=Math.round(v*1.5);let d=Math.max(0,v-B.enemy.block);B.enemy.block=Math.max(0,B.enemy.block-v);B.enemy.hp-=d;log(`对敌造成 ${d} 伤`);checkMechTriggers();renderBattle();if(B.enemy.hp<=0)setTimeout(winBattle,350)}
+function tryRevive(){if(G.hp<=0&&B&&hasRelic('niepan')&&!B.niepanUsed){B.niepanUsed=true;G.hp=20;log('🪶 涅槃凤羽燃起，你以 20 点气血重新站了起来');return true}return false}
+function checkMechTriggers(){let e=B.enemy;if(!e||e.hp<=0||!e.mech||e.mechUsed)return;if(e.mech.k==='heal'&&e.hp<=e.maxHp*0.4){e.mechUsed=true;let h=Math.round(e.maxHp*0.3);e.hp=Math.min(e.maxHp,e.hp+h);log(`⚠️ ${e.name} 气血见底，竟缓过一口气，回复 ${h} 点气血`)}else if(e.mech.k==='phase2'&&e.hp<=e.maxHp*0.5){e.mechUsed=true;e.atk+=(e.mech.atk||4);log(`⚠️ ${e.name} 踏入二阶段，攻击 +${e.mech.atk||4}，气势陡涨`)}}
+function mechEndOfTurn(){let e=B.enemy;if(!e||e.hp<=0||!e.mech)return;if(e.mech.k==='grow'){e.atk+=e.mech.v;log(`⚠️ ${e.name} 越战越凶，攻击 +${e.mech.v}（现 ${e.atk}）`)}if(e.mech.k==='shield'){e.block+=e.mech.v;log(`⚠️ ${e.name} 给自己叠了 ${e.mech.v} 点格挡`)}}
+function log(t){let el=document.getElementById('battleLog');if(el)el.textContent=t+'\n'+el.textContent}
+function renderBattle(){if(!B)return;let e=B.enemy;
+let bt=document.getElementById('battleTurn');if(bt)bt.textContent='第 '+B.turn+' 回合';
+document.getElementById('enemyEmoji').textContent=e.emoji;document.getElementById('enemyName').textContent=e.name;
+let eTotal=Math.max(1,e.maxHp+e.block);document.getElementById('enemyHpBar').style.width=Math.max(0,e.hp/eTotal*100)+'%';let eb=document.getElementById('enemyBlockBar');if(eb)eb.style.width=Math.max(0,e.block/eTotal*100)+'%';document.getElementById('enemyHpText').textContent=`气血 ${Math.max(0,e.hp)}/${e.maxHp}`;document.getElementById('enemyBlock').textContent=e.block;
+document.getElementById('intent').textContent=e.stun?'意图：📿 被定魂符定住，无法行动':'意图：'+(e.intent.k==='atk'?`⚔️ 攻击 ${e.intent.v}`:e.intent.k==='def'?`🛡️ 防御 ${e.intent.v}`:`🔺 强化 +${e.intent.v} 攻击`);
+let emEl=document.getElementById('enemyMech');if(emEl)emEl.textContent=e.mech?('⚠️ 特殊机制：'+e.mech.desc+(((e.mech.k==='heal'||e.mech.k==='phase2')&&e.mechUsed)?'（已触发）':'')):'';
+let esEl=document.getElementById('enemyStatus');if(esEl){let st=[];if(e.poison>0)st.push('🧪 中毒 '+e.poison);if(e.vuln>0)st.push('🌅 易伤 '+e.vuln+' 回合');if(e.stun)st.push('📿 已被定住');esEl.textContent=st.join(' · ')}
+document.getElementById('pHp').textContent=G.hp+'/'+G.maxHp;document.getElementById('pBlock').textContent=B.block;document.getElementById('pEnergy').textContent=B.energy+'/'+(B.energyMax||3);
+let pTotal=Math.max(1,G.maxHp+B.block);document.getElementById('pHpBar').style.width=Math.max(0,(G.hp/pTotal*100))+'%';let pb=document.getElementById('pBlockBar');if(pb)pb.style.width=Math.max(0,B.block/pTotal*100)+'%';
+let dc=document.getElementById('pileDrawCount');if(dc)dc.textContent=B.draw.length;let xc=document.getElementById('pileDiscardCount');if(xc)xc.textContent=B.discard.length;
+let hc=document.getElementById('handCount');if(hc)hc.textContent=B.hand.length+'/'+HAND_LIMIT;
+document.getElementById('hand').innerHTML=B.hand.map((id,i)=>{let c=CARDS[id];return `<button class="playcard" ${B.energy<c.cost?'disabled':''} onclick="playCard(${i})"><span class="cost">${c.cost}</span><b>${c.emoji} ${c.name}</b><p>${c.text}</p></button>`}).join('')||'<p>无手牌</p>';
+updateHUD();
+}
+function playCard(i){let id=B.hand[i],c=CARDS[id];if(B.energy<c.cost)return;B.energy-=c.cost;B.hand.splice(i,1);B.discard.push(id);beep(560,.07);c.play();autoDrawIfEmpty();renderBattle()}
+function endTurn(){if(!B||B.enemy.hp<=0)return;
+// 手牌保留：回合结束不再弃掉手牌，没打出的牌留到下回合继续用
+// 格挡到期（敌方）：上回合敌方攒下的格挡，在它这次行动前先消失
+if(B.enemy.poison>0){let pd=B.enemy.poison;B.enemy.hp-=pd;B.enemy.poison=Math.max(0,B.enemy.poison-1);log(`🧪 蚀魂毒发作，敌方受到 ${pd} 点毒伤`);if(B.enemy.hp<=0){renderBattle();setTimeout(winBattle,350);return}}
+if(B.enemy.block>0){log(`敌方 ${B.enemy.block} 点格挡已到下个回合，消散了`);B.enemy.block=0}
+let it=B.enemy.intent;
+if(B.enemy.stun){B.enemy.stun=false;log('📿 定魂符生效，敌方这一回合无法行动')}
+else if(it.k==='atk')hurtPlayer(it.v);else if(it.k==='def'){B.enemy.block+=it.v;log(`敌方获得 ${it.v} 格挡（到下个回合消失）`)}else{B.enemy.atk+=it.v;log('敌方攻击提升')}
+if(G.hp<=0)return;
+if(B.enemy.vuln>0)B.enemy.vuln--;
+mechEndOfTurn();
+// 格挡到期（玩家）：敌方行动后进入你的下个回合，未用完的格挡消失；桥头石给的是新回合的格挡，重新算
+let keepBlock=B.blockPersist||hasRelic('bubi')||hasRelic('taiji');
+if(B.block>0&&!keepBlock)log(`你的 ${B.block} 点格挡已到下个回合，消散了`);
+if(!keepBlock)B.block=0;else if(B.block>0)log('你的格挡留了下来，没有消散');
+if(hasRelic('qiaoshi')){B.block+=3;log('奈何桥头石：新回合获得 3 点格挡')}
+if(hasRelic('taiji')){B.block+=4;log('太极玉佩：新回合获得 4 点格挡')}
+B.energy=B.energyMax||3;B.turn++;
+if(hasRelic('xueyuchan')){G.hp=Math.min(G.maxHp,G.hp+1);log('🐸 血玉蟾：回复 1 点气血')}
+if(hasRelic('shixue')){G.hp-=2;log('🛎️ 噬魂铃作响，你失去 2 点气血');if(G.hp<=0&&!tryRevive())return gameOver()}
+rollIntent();
+// 回合开始抽牌：新回合开始时按抽牌数补牌（基础 4 张），但手牌不能超过上限，攥满了就抽不进来
+let wantDraw=drawCount();let drew=drawCards(wantDraw);
+if(drew>0)log(`第 ${B.turn} 回合开始，抽 ${drew} 张牌（手牌 ${B.hand.length}/${HAND_LIMIT}）`);
+else if(B.hand.length>=HAND_LIMIT)log(`第 ${B.turn} 回合开始：手牌已攥满 ${HAND_LIMIT} 张，本回合抽不进新牌，先打出几张腾地方`);
+else log(`第 ${B.turn} 回合开始：牌堆与弃牌堆都空了，无牌可抽`);
+beep(330,.08);renderBattle()}
+function toggleDeck(){showPile('draw')}
+function winBattle(){if(!B)return;let n=B.node;let ename=B.enemy.name;let gold=n.type==='boss'?120:n.type==='elite'?70:28;G.gold+=gold;beep(880,.2);B=null;
+// 胜利回血类遗物（残香 / 孟婆的碗）
+let vheal=(hasRelic('canxiang')?4:0)+(hasRelic('mengpowan')?8:0);if(vheal)G.hp=Math.min(G.maxHp,G.hp+vheal);
+// 遗物掉落：精英必掉稀有遗物，Boss 必掉绝世遗物——越难获得的越强
+let relicHtml='';if(n.type==='elite'||n.type==='boss'){let tier=n.type==='boss'?'epic':'rare';let rid=pickRelic(tier);if(rid){let r=grantRelic(rid);relicHtml=relicBanner(r,n.type==='boss'?'Boss 掉落':'精英掉落')}else{G.gold+=50;relicHtml=`<div class="relicGet"><b>🏺 这一档的遗物你已集齐</b><span>改为补偿 50 冥币。</span></div>`}}
+let pool=[...REWARD_POOL].sort(()=>Math.random()-.5).slice(0,3);
+if(n.type==='elite'||n.type==='boss'){let rare=[...RARE_POOL].filter(id=>!pool.includes(id)).sort(()=>Math.random()-.5);let cnt=n.type==='boss'?2:1;for(let i=0;i<cnt&&i<rare.length;i++)pool[i]=rare[i]}
+let frag='';
+if(n.type==='elite'&&n.layer===4)frag='倒下的阴帅攥着你的袖子，含糊地说：“你这单……不是我们接的。是上面直接压下来的。”上面？在地府当差的，头上还有谁？';
+if(n.type==='elite'&&n.layer===6)frag='锁链断开时，你听见其中一个低声骂了一句：“催催催……那位要续的命，凭什么拿枉死的人去填。”续命？填？你把这几个字记在了心里。';
+if(n.type==='boss'&&n.layer===8)frag='阎罗王倒下时，袖中滑出一页残纸，落在你脚边。是生死簿上撕下来的一页——你的名字下面，阳寿那一栏被人涂改过，朱砂的墨迹还很新。原来你不是命该如此。是有人，改了你的命。';
+if(n.type==='elite'&&n.layer===14)frag='守将退开时压低了声音：“小兄弟，天庭的水比黄泉深。你那页簿子的事……别问我，我什么都没看见。”他看见了。他只是不敢说。';
+if(n.type==='boss'&&n.layer===16)frag='打完这一阵，你忽然想起了一件事：你死的那天晚上，家里来过一位客人，穿一身白，笑得斯文，进门先问了你的生辰。你当时还给他倒了茶。';
+if(n.type==='boss'&&n.layer===17)frag='杨戬收刀退开，哮天犬冲你摇了摇尾巴。他说：“你的事，我听过一耳朵。殿里那位，最怕的不是刀，是有人把账算到他面前。”';
+window._pendingWin={n:n,gold:gold,pool:pool,frag:frag,relicHtml:relicHtml,ename:ename,vheal:vheal};
+let burnLines=[`${ename} 轰然倒下，尸身从断口处开始剧烈燃烧，火舌卷着黑烟，一下子冲起老高。`,`最后一刀落下，${ename} 浑身的阴气像被点着的纸，呼地一下，全烧了起来。`,`${ename} 瞪着你，慢慢跪了下去，身上的火焰却越烧越旺，把你的影子拉得老长。`];
+let bl=n.type==='boss'?`${ename} 倒下去的那一刻，整座殿都像被点着了，火光冲得梁上的灰簌簌往下掉。`:burnLines[Math.floor(Math.random()*burnLines.length)];
+showPanel(`<div style="text-align:center"><div class="soulfire">🔥</div><h2>${ename} · 燃尽了</h2><p style="color:var(--muted);max-width:560px;margin:10px auto">${bl}</p><p style="color:var(--muted);max-width:560px;margin:10px auto">烧了很久。等火焰矮下去，尸身已经没了，只剩一团青白色的火，悬在灰烬上方，不烫，也不散，轻轻地跳动着——像还在等什么人。</p><button class="btn" onclick="touchSoulFire()">伸手 · 触碰那团火</button></div>`);
+updateHUD()}
+function touchSoulFire(){let w=window._pendingWin;if(!w)return;beep(500,.15,'sine',.05);let heal=3;G.hp=Math.min(G.maxHp,G.hp+heal);w.touchHeal=heal;showWinReward();updateHUD()}
+function showWinReward(){let w=window._pendingWin;if(!w)return;let n=w.n,pool=w.pool,frag=w.frag;
+showPanel(`<div style="text-align:center"><div style="font-size:44px">🏆</div><h2>${n.type==='boss'?'殿门已破':'此关已过'}</h2><p style="color:var(--muted)">你伸手碰了那团火。火不烫，顺着指尖钻进胸口，和你心里那团火合成了一处——气血 +${w.touchHeal||3}${w.vheal?`，遗物的余温又护住你，额外回复 ${w.vheal}`:''}。冥币 +${w.gold}。选 1 张牌入组，或跳过。</p>${w.relicHtml||''}${frag?`<div class="themebox" style="text-align:left"><b>火焰里，你想起了什么——</b>${frag}</div>`:''}</div><div class="rewardGrid">${pool.map(id=>{let c=CARDS[id];return `<button class="playcard" onclick="takeReward('${id}')"><span class="cost">${c.cost}</span><b>${c.emoji} ${c.name}</b><p>${c.text}</p></button>`}).join('')}</div><button class="btn ghost" style="width:100%;margin-top:12px" onclick="backToMap()">跳过选牌 · 继续</button>`);}
+function takeReward(id){addCardToDeck(id);toast('新牌入组：'+CARDS[id].name);backToMap()}
+
+/* ---------- EVENT / SHOP / REST ---------- */
+function showEvent(n){
+if(n.layer===9){npcSeenSet().add('孟婆');showPanel(`<h2>🍵 奈何桥</h2><p style="color:var(--muted)">一座窄桥，桥头坐着个老婆婆，守着一锅热汤。她抬眼看了看你，盛了一碗递过来：“娃，喝了吧。喝了，就什么都不记得了。”</p>
+<button class="choice" onclick="eventResult('你没接那碗汤。老婆婆也不恼，只是看着你，慢慢说了一句：“不喝的人，我见过不少。能走回去的，你是头一个让我想看看的。”你把断刀握紧了些——最大气血 +8，获得「执念」。','meng1')"><b>不喝</b> · “我就是靠没忘，才走到这儿的。”</button>
+<button class="choice" onclick="eventResult('汤一入口，最痛的那一段忽然就淡了，像隔着一层雾。你想不起自己在恨什么，只觉得浑身一轻——回复 18 气血，但你放下了 1 张「斩魂刀」。','meng2')"><b>抿一口</b> · 就一小口，应该……没事吧。</button>
+<button class="choice" onclick="eventResult('你把整碗汤泼进了桥下的河里。老婆婆愣了半晌，忽然笑了，从灶台底下摸出一把冥币塞给你：“一千年了，你是第一个敢泼的。拿去，路上用。”冥币 +60。','meng3')"><b>泼了它</b> · 扬手，把汤倒进河里。</button>`);return}
+let evs=[
+{t:'河底石匣',d:'忘川浅滩处卡着一只石匣，匣盖被水冲开了一条缝，缝里透出一点微光。河水正一寸寸涨上来，再不动手，匣子就要被冲走了。',a:[
+{label:'蹚水过去，把石匣整个抱上岸',result:'匣里没有金银，只有一件旧物。你刚碰到它，它就像认得你一样，留在了你身上——具体是什么，看看你随身的遗物栏。',fn:()=>{let rid=pickRelic('common');if(rid){let r=grantRelic(rid);setTimeout(()=>toast('获得遗物：'+r.name),200)}else G.gold+=40}},
+{label:'只伸手进去，摸一把就走',result:'你摸到一把冰凉的圆钱，抓出来一看，是 45 冥币，水泡得发黑，却还沉甸甸的。',fn:()=>{G.gold+=45}},
+{label:'不碰它，绕开走',result:'你总觉得那点光太静了，静得不像宝贝。你绕开浅滩上了岸，脚步稳了些：回复 9 气血。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+9)}}]},
+{t:'三生石',d:'路边一块大石，石上刻满了字。你凑近去看，其中一行写着你的名字，只是名字下面那几行，被人用朱砂重重划掉了。',a:[
+{label:'俯下身，把那道朱砂痕描得更深',result:'朱砂沾上指尖的一瞬，你头痛欲裂，眼前闪过一个背影——有人站在高处，正低头改着一本厚厚的册子。你没看清他的脸。等痛劲过去，你觉得魂体凝实了些：最大气血 +6。',fn:()=>{G.maxHp+=6;G.hp+=6}},
+{label:'捡起一块碎石，在石上刻字',result:'你在被划掉的那几行下面，一笔一笔刻上：“沈不归，自己写。”石屑落尽时，一道细细的裂纹从石中透出光来——你获得了「断生死线」。',fn:()=>addCardToDeck('duan')},
+{label:'绕到石头背面去看',result:'背面没有字，只有一道新刻的浅痕，像是指甲抠的，抠的是一个“冤”字。你伸手摸了摸，痕里掉出 35 冥币——不知是谁藏在这里的路费。冥币 +35。',fn:()=>{G.gold+=35}},
+{label:'一刀劈向那道朱砂',result:'刀砍在石上，火星四溅，你被震退三步，受了 4 点伤害。但朱砂裂开一道缝，缝里透出的光照得你魂体一暖：回复 8 气血。',fn:()=>{G.hp=Math.max(1,G.hp-4);G.hp=Math.min(G.maxHp,G.hp+8)}}]},
+{t:'枉死城',d:'一座挤满了亡魂的城，个个都不肯走。城门口悬着一面大鼓，鼓皮上积了厚厚一层灰，像是很久没人敲过了。',a:[
+{label:'走上前，擂响那面鼓',result:'鼓声传遍全城，所有亡魂都停下来看着你。守城的老卒红着眼眶给了你一记——规矩如此，擂鼓者先受刑。你挨了 6 点伤害，但全城亡魂凑了 70 冥币塞进你怀里：“替我们，问问上面。”',fn:()=>{G.hp-=6;G.gold+=70}},
+{label:'什么也不做，穿城而过',result:'你低着头穿过人群。有个亡魂拉住你的袖子，又松开了。你走出城门时，脚步比进来时稳了些：回复 10 气血。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+10)}},
+{label:'在城门口坐下，听他们说',result:'你听了很久。一个老太太说她阳寿未尽就被勾来，一个书生说他的名字被人顶了。你把这些都记在心里，胸口的火更稳了：获得「执念」。',fn:()=>addCardToDeck('zhinian')},
+{label:'把身上的干粮分给守门老卒',result:'你其实没什么干粮，只有一点冥币。老卒摆摆手没收钱，反而从怀里掏出一张旧符贴在你刀上：“去吧，孩子。”你获得「莲台护体」。',fn:()=>addCardToDeck('lotus')}]},
+{t:'望乡台',d:'一座高台。登上去，能看见阳间。你看见一间小院，院里有两盆绿植，还绿着，叶子上带着水。',a:[
+{label:'再多看一眼',result:'你看了很久，久到守台的小鬼都没催你。下台时你抹了把脸，胸口那团火奇迹般地稳了下来：回复 14 气血。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+14)}},
+{label:'转身就走，不再回头',result:'你走下台阶，一步没停。身后，那两盆绿植在风里晃了晃。你获得了「回光」——不是回头，是往前。',fn:()=>addCardToDeck('huiguang')},
+{label:'对着小院的方向，喊一声',result:'声音穿不过阴阳，只惊起台边一群灰雀。守台小鬼叹了口气，递给你一碗凉水。水入喉，你清醒了许多：抽牌的念头更顺了，回复 6 气血，冥币 +20（小鬼找给你的“喊台费”退钱）。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+6);G.gold+=20}}]},
+{t:'忘川摆渡',d:'河面无风，一条小船横在雾里。船头站着个不说话的摆渡人，伸出一只手，手心向上。河对岸，隐约有一点灯火。',a:[
+{label:'把冥币放进他手心',result:'你付了 30 冥币。船行得极稳，雾在船头分开。靠岸时摆渡人破天荒开了口：“你这单，不对。”只四个字。你的最大气血 +4。',fn:()=>{if(G.gold>=30)G.gold-=30;G.maxHp+=4;G.hp+=4}},
+{label:'不坐船，涉水过去',result:'河水刺骨，每走一步都像有手在拽你。你咬着牙上了岸，受了 7 点伤害，但水底摸到一把沉甸甸的东西：冥币 +55。',fn:()=>{G.hp-=7;G.gold+=55}},
+{label:'问他：你渡了多少年了？',result:'他没答，只把桨往水里一探，捞起一块旧牌位，牌位上没有字。他摇摇头，把牌位又放回水里。你心里一沉，获得了「横断黄泉」。',fn:()=>addCardToDeck('heng')},
+{label:'在岸边坐一会儿再走',result:'你坐了很久，看船来船去。等你起身时，腿不抖了，心也不乱了：回复 12 气血。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+12)}}]},
+{t:'彼岸花田',d:'一大片红花，无叶，花开得安静。花田中间有一条仅容一人过的小径，径边立着一块无字小碑。',a:[
+{label:'沿着小径，慢慢走过去',result:'花香不浓，却让人想起很多小事。你走得很慢，出花田时眼睛有点热：回复 10 气血。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+10)}},
+{label:'折一朵花，别在刀柄上',result:'花一离枝就化作一点红光，钻进刀身。刀轻了一分，也利了一分：获得「风火轮影」。',fn:()=>addCardToDeck('windfire')},
+{label:'在无字碑前停下，擦掉碑上灰',result:'灰擦掉，碑上还是没字，只有一道掌印，掌印很小，像个孩子。你把手按上去，严丝合缝——你愣住了。最大气血 +5。',fn:()=>{G.maxHp+=5;G.hp+=5}}]},
+{t:'血池边 · 脱罪僧',d:'血池翻涌，池边坐着个闭目念经的僧人，衣摆干净得不像在地狱里。他听见脚步，没睁眼：“施主，池里喊的，都是说自己冤的。”',a:[
+{label:'问他：你信吗？',result:'僧人睁开眼，看了你一会儿：“老僧信不信不打紧。打紧的是，上面信不信。”他递给你一串旧念珠，念珠入手温热：获得「莲台护体」。',fn:()=>addCardToDeck('lotus')},
+{label:'往池里看一眼',result:'池面浮起一张脸，又沉下去。那张脸跟你有三分像。你后退一步，撞翻了池边的功德箱，箱里滚出 40 冥币，你捡了起来。',fn:()=>{G.gold+=40}},
+{label:'陪他坐一会儿，不说话',result:'你们什么都没说。经声慢慢把池里的喊声压下去一点。你起身时，气血回复了 9 点。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+9)}},
+{label:'把刀横在他面前',result:'僧人笑了笑，伸出两根手指，轻轻把刀推开：“刀是好刀，别对错了人。”你收刀时，发现刀刃上多了一道细细的金线：获得「燃魂一刀」。',fn:()=>addCardToDeck('liesoul')}]},
+{t:'孽镜台前',d:'一面巨大的铜镜，镜面蒙尘，却照得出人。台前排着队，每个亡魂走到镜前都要停一停，镜里放的不是脸，是生前做过的事。轮到你时，镜面忽然黑了。',a:[
+{label:'伸手擦镜面',result:'尘擦掉，镜里先是一片黑，然后慢慢亮起一间屋子、一个白衣客人、一杯你倒的茶。画面到这里就断了。你记住了那张脸的轮廓：最大气血 +6。',fn:()=>{G.maxHp+=6;G.hp+=6}},
+{label:'不看镜子，径直走过',result:'守镜的小吏急了，追上来塞给你一张纸：“不看也得签字！”纸上只有你的名字，别的都是空白。你把纸团了扔回去，他反而松了口气，赏了你 30 冥币封口。',fn:()=>{G.gold+=30}},
+{label:'问守镜小吏：镜子为什么黑了？',result:'小吏压低声音：“镜子照不出……被涂掉的那一段。不是镜子坏了，是簿子上先没了。”他说完就后悔了，摆手让你快走。你获得了「断生死线」。',fn:()=>addCardToDeck('duan')}]},
+{t:'阴兵借道',d:'前方锣声由远及近，一队阴兵押着长长的队伍过路，为首的旗上写着一个“押”字。队伍里有人抬头看了你一眼，嘴被布堵着，只能拼命眨眼。',a:[
+{label:'让到路边，等他们过去',result:'队伍过去时，那个眨眼的人用脚在地上划了个字，只划了一半就被拖走了。你盯着那半个字看了很久：回复 8 气血，稳住了心神。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+8)}},
+{label:'冲上去，扯掉那人嘴里的布',result:'阴兵一拥而上，你挨了 8 点伤害才退回来。但那人喊出了半句话：“……续命……别……”声音被锣声盖住了。你把半句话刻在了心里：获得「执念」。',fn:()=>{G.hp-=8;addCardToDeck('zhinian')}},
+{label:'跟在队伍后面走一段',result:'你跟了很长一段路，没人赶你。队伍拐进雾里时，最后一个阴兵丢下一袋东西，你打开看，是 50 冥币和一张没写完的状纸。',fn:()=>{G.gold+=50}},
+{label:'把断刀插在路中间，拦路',result:'为首的阴将勒住马，看了你半天，忽然笑了：“胆子不小。”他没动手，只让人绕着你的刀走。等队伍走远，你拔刀时发现刀身凉得透骨：获得「引雷诀」。',fn:()=>addCardToDeck('leifa')}]},
+{t:'铜柱狱旁 · 铁算盘',d:'一个账房模样的老头坐在铜柱旁打算盘，算盘珠子是铁的，拨起来叮当响。他头也不抬：“阳寿、阴寿、欠的、还的，老夫这本账，从没错过——除了近年。”',a:[
+{label:'问他：近年错在哪？',result:'老头手一顿，算盘停了。“错不在算，在有人拿朱笔在算好的账上涂。”他把一页废账塞给你，废账背面有几个数字，你看不懂，但先收好了：冥币 +45。',fn:()=>{G.gold+=45}},
+{label:'请他帮你算一算',result:'他拨了半天，脸色越来越难看，最后把算盘一推：“算不出。你的账，被人从账本上撕了。”他从抽屉里摸出一张旧卡塞给你赔罪：获得「借星光」。',fn:()=>addCardToDeck('taibai')},
+{label:'什么也不问，帮他扶正铜柱旁的灯',result:'灯扶正了，光稳了。老头难得抬头道了声谢，指了指柱子后面一条近道。你走近道避开了一段险路：回复 11 气血。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+11)}}]},
+{t:'无主庙',d:'一间没有神像的小庙，香炉里还有半炷没烧完的香，不知是谁上的。庙门内侧刻满了小字，密密麻麻，全是名字。',a:[
+{label:'凑近看那些名字',result:'名字有男有女，有老有少，刻得深浅不一。你在最下面看见一个刻了一半就断掉的名字，笔迹有点眼熟。你伸手把那半个名字描完：最大气血 +5。',fn:()=>{G.maxHp+=5;G.hp+=5}},
+{label:'给香炉续一炷香',result:'你没有香，就把一点冥币卷成细条点上。烟直直往上飘，没散。冥币 -15，但你觉得胸口松了些：回复 13 气血。',fn:()=>{G.gold=Math.max(0,G.gold-15);G.hp=Math.min(G.maxHp,G.hp+13)}},
+{label:'在庙里避一避外面的风',result:'风确实小了。你靠着墙眯了一会儿，梦见有人在院子里浇花，背影很稳。醒来时：回复 7 气血，获得「回光」。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+7);addCardToDeck('huiguang')}}]},
+{t:'登天梯 · 残碑',d:'这段路已经出了地府的地界，脚下是云，前面是望不到头的石阶。阶旁倒着半块碑，碑上刻着：“登天者，先……”后半句被人凿掉了。',a:[
+{label:'把碑扶起来',result:'碑很沉，你扶得手臂发抖。碑底压着一封没寄出的信，信封上写着你的名字，信里只有一行字，你还没看清就化成了灰。最大气血 +7。',fn:()=>{G.maxHp+=7;G.hp+=7}},
+{label:'坐在台阶上，往下看',result:'下面是望不到底的黑，黑里有灯，一盏一盏，都是地府。你忽然不怕高了：回复 12 气血。',fn:()=>{G.hp=Math.min(G.maxHp,G.hp+12)}},
+{label:'一脚踏碎那半块碑',result:'碑碎了，凿掉字的那一面翻了过来，背面刻着一个小小的印，印文是“代天”二字。你把碎碑里掉出的一张牌收好：获得「引雷诀」。',fn:()=>addCardToDeck('leifa')},
+{label:'对着云层喊上面的人',result:'喊声被云吞了，没有回音。只有守梯的天兵远远看了你一眼，又把头转回去，假装没听见。你攥紧刀：冥币 +25（天兵丢下的封口钱，不知从哪飘下来的）。',fn:()=>{G.gold+=25}}]},
+];let ev=evs[Math.floor(Math.random()*evs.length)];
+showPanel(`<h2>❓ ${ev.t}</h2><p style="color:var(--muted)">${ev.d}</p>${ev.a.map((x,i)=>`<button class="choice" onclick="eventChoice(${i})"><b>${x.label}</b></button>`).join('')}`);
+window._ev=ev;
+}
+function eventChoice(i){let opt=window._ev.a[i];opt.fn();if(G.hp<=0)return gameOver();updateHUD();showPanel(`<div style="text-align:center"><h2>抉择已定</h2><p style="color:var(--muted)">${opt.result}</p><button class="btn" onclick="backToMap()">继续向上</button></div>`)}
+function eventResult(txt,k){if(k==='meng1'){G.maxHp+=8;G.hp+=8;addCardToDeck('zhinian')}if(k==='meng2'){G.hp=Math.min(G.maxHp,G.hp+18);let ix=G.deck.indexOf('zhan');if(ix>=0)G.deck.splice(ix,1)}if(k==='meng3')G.gold+=60;updateHUD();showPanel(`<div style="text-align:center"><div style="font-size:44px">🌉</div><h2>过桥</h2><p style="color:var(--muted)">${txt}</p><button class="btn" onclick="backToMap()">踏上黄泉路 · 逆行登天</button></div>`)}
+function renderShop(confirmHtml){
+let n=nodeById(G.nodeId);let pool=window._shop||[];let relic=window._shopRelic?RELICS[window._shopRelic.id]:null;
+showPanel(`<h2>🏮 ${n.act>=2?'天市暗摊':'鬼市'} · ${n.act>=2?'一个偷下凡的仙童摆的摊，被天庭知道要挨板子的':'无常亲自担保，童叟无欺'}</h2><p style="font-size:15px">当前冥币：<b class="goldFlash" id="shopGold" style="color:var(--gold2);font-size:18px">${G.gold}</b> <span style="color:var(--muted);font-size:13px">· 点商品先确认，确认后立刻扣币</span></p><div class="shopGrid">${pool.map(id=>{let c=CARDS[id];let afford=G.gold>=60;return `<button class="playcard" ${afford?'':'disabled'} onclick="askBuy('card','${id}',60)"><span class="cost">${c.cost}</span><b>${c.emoji} ${c.name}</b><p>${c.text}</p><p><b>${afford?'60 冥币 · 点此购买':'60 冥币 · 冥币不足'}</b></p></button>`}).join('')}</div>
+${relic?`<button class="choice" ${G.gold>=window._shopRelic.price?'':'disabled style="opacity:.45"'} onclick="askBuy('relic','${window._shopRelic.id}',${window._shopRelic.price})"><b>${relic.emoji} 遗物 · ${relic.name}（${relic.tierName}）· ${window._shopRelic.price} 冥币</b> — ${relic.desc}${G.gold>=window._shopRelic.price?'':'（冥币不足）'}</button>`:''}
+<button class="choice" ${G.gold>=40?'':'disabled style="opacity:.45"'} onclick="askBuy('heal','',40)"><b>纸扎回血丹 · 40 冥币</b> — 回复 20 气血（当前 ${G.hp}/${G.maxHp}）</button>
+<button class="choice" ${G.gold>=50&&G.deck.length>5?'':'disabled style="opacity:.45"'} onclick="openRemovePicker()"><b>销去一笔 · 50 冥币</b> — 点开牌组，自己挑一张牌删掉，牌组更精炼</button>
+<div id="shopConfirmBox">${confirmHtml||''}</div>
+<button class="btn" style="width:100%;margin-top:12px" onclick="backToMap()">离开摊位</button>`);
+}
+function showShop(n){if(!window._shopAt||window._shopAt!==n.id){window._shop=[...REWARD_POOL].sort(()=>Math.random()-.5).slice(0,3);window._shopAt=n.id;let rid=pickRelic(Math.random()<0.62?'common':'rare');window._shopRelic=rid?{id:rid,price:RELICS[rid].tier==='rare'?160:85}:null}renderShop()}
+function askBuy(kind,id,price){
+ if(G.gold<price)return toast('冥币不够，这件买不了');
+ let name=kind==='card'?CARDS[id].name:kind==='heal'?'纸扎回血丹（回复 20 气血）':kind==='relic'?('遗物 · '+RELICS[id].name+'（'+RELICS[id].tierName+'）'):'销去一笔';
+ let after=G.gold-price;
+ let html=`<div class="shopConfirm"><p style="margin:0 0 8px">确认购买 <b>${name}</b>？</p><p style="margin:0;color:var(--muted);font-size:14px">将花费 <b>${price} 冥币</b>，余额 <b>${G.gold}</b> → <b>${after}</b>。确认后立即扣除，不可撤销。</p><div style="display:flex;gap:10px;margin-top:12px"><button class="btn" style="flex:1" onclick="confirmBuy('${kind}','${id}',${price})">✔ 确认购买 · -${price} 冥币</button><button class="btn ghost" style="flex:1" onclick="renderShop()">取消</button></div></div>`;
+ renderShop(html);setTimeout(()=>{let el=document.getElementById('shopConfirmBox');if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},50);
+}
+function confirmBuy(kind,id,price){
+ if(G.gold<price){toast('冥币不够');return renderShop()}
+ G.gold-=price; // 实时扣除
+ if(kind==='card'){addCardToDeck(id);window._shop=window._shop.filter(x=>x!==id)}
+ if(kind==='relic'){grantRelic(id);window._shopRelic=null}
+ if(kind==='heal'){G.hp=Math.min(G.maxHp,G.hp+20)}
+ if(kind==='remove'){let ix=G.deck.indexOf('zhan');if(ix>=0)G.deck.splice(ix,1);else{let jx=G.deck.length-1;if(jx>=0)G.deck.splice(jx,1)}}
+ updateHUD();beep(720,.09);
+ let gEl=document.getElementById('uiGold');if(gEl){gEl.parentElement.classList.add('goldFlash','bump');setTimeout(()=>gEl.parentElement.classList.remove('bump'),350)}
+ toast(kind==='card'?`已扣除 ${price} 冥币，买下 ${CARDS[id].name} · 余额 ${G.gold}`:kind==='relic'?`已扣除 ${price} 冥币，获得遗物 ${RELICS[id].name} · 余额 ${G.gold}`:kind==='heal'?`已扣除 ${price} 冥币，回复 20 · 余额 ${G.gold}`:`已扣除 ${price} 冥币，已删牌 · 余额 ${G.gold}`);
+ renderShop(`<div class="shopConfirm" style="border-color:var(--jade)"><p style="margin:0">✅ 交易完成，冥币已实时扣除。当前余额 <b>${G.gold}</b>。</p></div>`);
+}
+/* 删牌：玩家自己从牌组里挑要删的那张，再二次确认才扣币删除 */
+function deckCounts(){let m={};G.deck.forEach(id=>m[id]=(m[id]||0)+1);return m}
+function openRemovePicker(){
+ if(G.gold<50)return toast('冥币不够，删牌要 50 冥币');
+ if(G.deck.length<=5)return toast('牌组只剩 5 张，不能再删了');
+ let cnt=deckCounts();
+ let html=`<div class="shopConfirm"><p style="margin:0 0 8px"><b>销去一笔 · 挑一张要删掉的牌</b></p><p style="margin:0 0 10px;color:var(--muted);font-size:14px">点一张牌选中它，下一步还会让你确认，确认后才扣 50 冥币。</p><div class="shopGrid">${Object.keys(cnt).map(id=>{let c=CARDS[id];return `<button class="playcard" onclick="pickRemoveCard('${id}')"><span class="cost">${c.cost}</span><b>${c.emoji} ${c.name} ×${cnt[id]}</b><p>${c.text}</p><p><b>点此选中删除</b></p></button>`}).join('')}</div><button class="btn ghost" style="width:100%;margin-top:10px" onclick="renderShop()">不删了 · 返回</button></div>`;
+ renderShop(html);setTimeout(()=>{let el=document.getElementById('shopConfirmBox');if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},50);
+}
+function pickRemoveCard(id){
+ window._removePick=id;let c=CARDS[id];let after=G.gold-50;let cnt=deckCounts()[id]||0;
+ let html=`<div class="shopConfirm"><p style="margin:0 0 8px">确认删掉 <b>${c.emoji} ${c.name}</b>？（牌组里现有 ${cnt} 张，将删去 1 张）</p><p style="margin:0;color:var(--muted);font-size:14px">将花费 <b>50 冥币</b>，余额 <b>${G.gold}</b> → <b>${after}</b>。确认后立即扣除并删牌，不可撤销。</p><div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap"><button class="btn" style="flex:1" onclick="confirmRemove()">✔ 确认删牌 · -50 冥币</button><button class="btn ghost" style="flex:1" onclick="openRemovePicker()">重新挑</button><button class="btn ghost" style="flex:1" onclick="renderShop()">取消</button></div></div>`;
+ renderShop(html);setTimeout(()=>{let el=document.getElementById('shopConfirmBox');if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},50);
+}
+function confirmRemove(){
+ let id=window._removePick;if(!id||!CARDS[id])return renderShop();
+ if(G.gold<50){toast('冥币不够');return renderShop()}
+ let ix=G.deck.indexOf(id);if(ix<0){toast('牌组里没有这张牌了');return renderShop()}
+ G.gold-=50; // 实时扣除
+ G.deck.splice(ix,1);window._removePick=null;
+ updateHUD();beep(720,.09);
+ let gEl=document.getElementById('uiGold');if(gEl){gEl.parentElement.classList.add('goldFlash','bump');setTimeout(()=>gEl.parentElement.classList.remove('bump'),350)}
+ toast(`已扣除 50 冥币，删去「${CARDS[id].name}」 · 余额 ${G.gold}`);
+ renderShop(`<div class="shopConfirm" style="border-color:var(--jade)"><p style="margin:0">✅ 已删去「${CARDS[id].name}」，冥币已实时扣除。当前余额 <b>${G.gold}</b>，牌组剩 ${G.deck.length} 张。</p></div>`);
+}
+function buyCard(id,price){askBuy('card',id,price)}
+function buyHeal(){askBuy('heal','',40)}
+function buyRemove(){openRemovePicker()}
+function showRest(n){showPanel(`<div style="text-align:center"><div style="font-size:48px">♨️</div><h2>${n.act>=2?'望乡台边 · 歇脚处':'残魂驿'}</h2><p style="color:var(--muted)">难得安静。只能选一样。</p></div>
+<button class="choice" onclick="restChoice('heal')"><b>歇魂</b> · 在驿里合一会儿眼，什么也不想</button>
+<button class="choice" onclick="restChoice('forge')"><b>淬刀</b> · 把断刀就着驿边的青石，一下一下磨</button>
+<button class="choice" onclick="restChoice('search')"><b>翻旧箱</b> · 驿里角落有一只没上锁的旧箱，不知是谁留下的</button>`)}
+function restChoice(k){if(k==='heal'){let amt=Math.round(G.maxHp*.22);G.hp=Math.min(G.maxHp,G.hp+amt);updateHUD();showPanel(`<div style="text-align:center"><div style="font-size:44px">♨️</div><h2>歇过来了</h2><p style="color:var(--muted)">你睡了不知多久，醒来时磨刀声都远了。气血回复了 ${amt} 点。</p><button class="btn" onclick="backToMap()">继续向上</button></div>`)}else if(k==='search'){let g=35+Math.floor(Math.random()*30);G.gold+=g;updateHUD();showPanel(`<div style="text-align:center"><div style="font-size:44px">🧰</div><h2>箱底有东西</h2><p style="color:var(--muted)">箱里是些旧衣裳，衣裳底下压着 ${g} 冥币和一张字条，字条上写着：“后来人，拿去赶路。”你把钱收好了。</p><button class="btn" onclick="backToMap()">继续向上</button></div>`)}else{addCardToDeck('liesoul');updateHUD();showPanel(`<div style="text-align:center"><div style="font-size:44px">🗡️</div><h2>刀，利了</h2><p style="color:var(--muted)">断口处磨出了新的锋。磨到最后，刀身上映出你自己的脸——你忽然想起，这把刀好像不是你的，是你从别人手里接过来的。是谁？你还是想不起来。你获得了「燃魂一刀」。</p><button class="btn" onclick="backToMap()">继续向上</button></div>`)}}
+function gameOver(){['view-battle','view-map','view-panel'].forEach(id=>document.getElementById(id).classList.add('hidden'));let v=document.getElementById('view-end');v.classList.remove('hidden');document.getElementById('endEmoji').textContent='💀';document.getElementById('endTitle').textContent='魂归最底层';document.getElementById('endText').textContent='你又回到了刀锯狱底。但走过的路、见过的人、泼过的那碗汤，都还在。地府最不缺的就是重来——再杀一次。';beep(160,.4,'sawtooth',.05)}
+function winGame(fromFinal){['view-battle','view-map','view-panel'].forEach(id=>document.getElementById(id).classList.add('hidden'));let v=document.getElementById('view-end');v.classList.remove('hidden');document.getElementById('endEmoji').textContent='☁️';document.getElementById('endTitle').textContent='本版通关 · 天庭前阵已破';document.getElementById('endText').textContent='地府十殿、十八层、黄泉、奈何、南天门前阵——你一刀一刀杀上来了。灵霄殿的门还关着，门里的人还在讲天条。下一章见。';beep(980,.3)}
+function restart(){
+ // 回到最底层 · 彻底清零本局：不能靠整页刷新——页面在沙盒 iframe 里运行时刷新经常无反应、点了像没反应，所以改为原地重建一局新状态。
+ // 本局攒下的一切全部清零：气血/冥币回到初始，牌组只剩出生 10 张，遗物清空，图鉴遇见记录清空，地图进度回到最底层起点。
+ B=null;
+ window._pendingWin=null;window._ev=null;window._shop=null;window._shopAt=null;window._shopRelic=null;window._removePick=null;
+ G=newGameState();genMap();
+ ['pileModal','relicModal','toast'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ var pc=document.getElementById('panelContent');if(pc)pc.innerHTML='';
+ var bl=document.getElementById('battleLog');if(bl)bl.textContent='';
+ ['view-map','view-battle','view-panel','view-end'].forEach(function(id){document.getElementById(id).classList.add('hidden')});
+ document.getElementById('view-intro').classList.remove('hidden');
+ showTab('game');
+ updateHUD();renderCodex();
+ var ms=document.getElementById('mapScroll');if(ms)ms.scrollTop=0;
+ window.scrollTo({top:0});
+ beep(440,.08);
+ toast('已回到最底层 · 本局已清零');
+}
+G=newGameState();genMap();updateHUD();renderCodex();
+</script>
+</body>
+</html>
